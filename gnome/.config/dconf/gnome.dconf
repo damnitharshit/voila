@@ -22,7 +22,7 @@ translate=false
 [org/gnome/desktop/background]
 color-shading-type='solid'
 picture-options='zoom'
-picture-uri='file:///home/harshit/.local/share/backgrounds/2022-01-29-12-44-55-evening-sky.png'
+picture-uri='file:///home/harshit/.local/share/backgrounds/2022-02-21-15-39-11-nwallupscale.png'
 primary-color='#000000000000'
 secondary-color='#000000000000'
 
@@ -44,7 +44,7 @@ font-name='Roboto Light 11'
 gtk-im-module='gtk-im-context-simple'
 gtk-theme='Juno-ocean-v40'
 icon-theme='Papirus-Dark'
-monospace-font-name='Cascadia Mono PL 10'
+monospace-font-name='Cascadia Code PL 10'
 show-battery-percentage=true
 
 [org/gnome/desktop/notifications]
@@ -91,13 +91,14 @@ natural-scroll=false
 [org/gnome/desktop/peripherals/touchpad]
 edge-scrolling-enabled=false
 speed=0.17021276595744683
-tap-to-click=true
+tap-to-click=false
 two-finger-scrolling-enabled=true
 
 [org/gnome/desktop/screensaver]
 color-shading-type='solid'
+lock-delay=uint32 0
 picture-options='zoom'
-picture-uri='file:///home/harshit/.local/share/backgrounds/2022-01-29-12-44-55-evening-sky.png'
+picture-uri='file:///home/harshit/.local/share/backgrounds/2022-02-21-15-39-11-nwallupscale.png'
 primary-color='#000000000000'
 secondary-color='#000000000000'
 
@@ -131,8 +132,8 @@ move-to-workspace-last=@as []
 move-to-workspace-left=['<Shift><Super>Left']
 move-to-workspace-right=['<Shift><Super>Right']
 panel-run-dialog=@as []
-switch-applications=['<Alt>Tab']
-switch-applications-backward=['<Shift><Alt>Tab']
+switch-applications=@as []
+switch-applications-backward=@as []
 switch-group=@as []
 switch-group-backward=@as []
 switch-input-source=@as []
@@ -146,6 +147,8 @@ switch-to-workspace-4=['<Super>4']
 switch-to-workspace-last=@as []
 switch-to-workspace-left=['<Super>Left']
 switch-to-workspace-right=['<Super>Right']
+switch-windows=['<Alt>Tab']
+switch-windows-backward=['<Shift><Alt>Tab']
 toggle-maximized=@as []
 unmaximize=@as []
 
@@ -178,7 +181,7 @@ show-sidebar=true
 sidebar-page='thumbnails'
 sidebar-size=132
 sizing-mode='free'
-window-ratio=(1.1734006734006734, 0.67821172268651941)
+window-ratio=(1.1726190476190477, 0.67811369657280451)
 zoom=0.89981856984783715
 
 [org/gnome/file-roller/dialogs/extract]
@@ -233,15 +236,19 @@ search-filter-time-type='last_modified'
 search-view='list-view'
 
 [org/gnome/nautilus/window-state]
-initial-size=(890, 550)
+initial-size=(1003, 568)
 maximized=true
 sidebar-width=190
+
+[org/gnome/nm-applet/eap/414dd7b5-74ab-4c34-be24-5c48ac2920e9]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
 
 [org/gnome/settings-daemon/plugins/media-keys]
 area-screenshot=['<Shift><Super>s']
 area-screenshot-clip=@as []
 control-center=['<Super>s']
-custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/']
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/']
 help=@as []
 home=['<Super>f']
 magnifier=@as []
@@ -269,16 +276,21 @@ binding='<Super>Return'
 command='kitty'
 name='Launch Terminal'
 
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3]
+binding='<Alt>space'
+command='rofi -show drun'
+name='Run Rofi'
+
 [org/gnome/settings-daemon/plugins/power]
 idle-dim=false
 sleep-inactive-ac-type='nothing'
 
 [org/gnome/shell]
-app-picker-layout=[{'bfbfeb1c-d606-40a8-bf0f-9b9fc7da85a3': <{'position': <0>}>, '2ff8def8-f37c-4b5b-96b7-6bad22f8f115': <{'position': <1>}>, 'e85fba6c-baf1-4997-b1c4-0b05ddbd0415': <{'position': <2>}>, 'lstopo.desktop': <{'position': <3>}>, 'firefox.desktop': <{'position': <4>}>, 'pavucontrol.desktop': <{'position': <5>}>, 'mpv.desktop': <{'position': <6>}>, 'org.gnome.Evince.desktop': <{'position': <7>}>, 'nvim.desktop': <{'position': <8>}>, 'github-desktop.desktop': <{'position': <9>}>, 'htop.desktop': <{'position': <10>}>, 'org.inkscape.Inkscape.desktop': <{'position': <11>}>, 'com.obsproject.Studio.desktop': <{'position': <12>}>, 'spotify-adblock.desktop': <{'position': <13>}>, 'gimp.desktop': <{'position': <14>}>, 'Zoom.desktop': <{'position': <15>}>, 'org.gnome.Terminal.desktop': <{'position': <16>}>}]
+app-picker-layout=[{'bfbfeb1c-d606-40a8-bf0f-9b9fc7da85a3': <{'position': <0>}>, '2ff8def8-f37c-4b5b-96b7-6bad22f8f115': <{'position': <1>}>, 'e85fba6c-baf1-4997-b1c4-0b05ddbd0415': <{'position': <2>}>, 'lstopo.desktop': <{'position': <3>}>, 'pavucontrol.desktop': <{'position': <4>}>, 'mpv.desktop': <{'position': <5>}>, 'org.gnome.Evince.desktop': <{'position': <6>}>, 'nvim.desktop': <{'position': <7>}>, 'github-desktop.desktop': <{'position': <8>}>, 'htop.desktop': <{'position': <9>}>, 'org.inkscape.Inkscape.desktop': <{'position': <10>}>, 'com.obsproject.Studio.desktop': <{'position': <11>}>, 'org.gnome.tweaks.desktop': <{'position': <12>}>, 'spotify.desktop': <{'position': <13>}>, 'org.gnome.Extensions.desktop': <{'position': <14>}>, 'gimp.desktop': <{'position': <15>}>, 'Zoom.desktop': <{'position': <16>}>, 'org.gnome.Terminal.desktop': <{'position': <17>}>}]
 disable-user-extensions=false
 disabled-extensions=['workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'notification-banner-reloaded@marcinjakubowski.github.com']
-enabled-extensions=['just-perfection-desktop@just-perfection', 'impatience@gfxmonk.net', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'blur-my-shell@aunetx', 'sound-output-device-chooser@kgshank.net', 'bluetooth-quick-connect@bjarosze.gmail.com', 'improved-workspace-indicator@michaelaquilina.github.io', 'fullscreen-notifications@sorrow.about.alice.pm.me', 'dash-to-panel@jderose9.github.com']
-favorite-apps=['brave-browser.desktop', 'kitty.desktop', 'visual-studio-code.desktop', 'org.gnome.Nautilus.desktop', 'gnome-control-center.desktop', 'teams.desktop', 'spotify.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.Extensions.desktop']
+enabled-extensions=['just-perfection-desktop@just-perfection', 'impatience@gfxmonk.net', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'blur-my-shell@aunetx', 'bluetooth-quick-connect@bjarosze.gmail.com', 'fullscreen-notifications@sorrow.about.alice.pm.me', 'dash-to-panel@jderose9.github.com', 'improved-workspace-indicator@michaelaquilina.github.io', 'sound-output-device-chooser@kgshank.net']
+favorite-apps=['brave-browser.desktop', 'kitty.desktop', 'visual-studio-code.desktop', 'org.gnome.Nautilus.desktop', 'gnome-control-center.desktop', 'teams.desktop', 'spotify-adblock.desktop']
 had-bluetooth-devices-setup=true
 welcome-dialog-last-shown-version='41.3'
 
@@ -295,7 +307,7 @@ animate-appicon-hover=false
 animate-appicon-hover-animation-extent={'RIPPLE': 4, 'PLANK': 4, 'SIMPLE': 1}
 appicon-margin=8
 appicon-padding=4
-available-monitors=[0]
+available-monitors=[1, 0]
 hotkeys-overlay-combo='TEMPORARILY'
 intellihide=false
 isolate-workspaces=false
@@ -318,7 +330,7 @@ trans-panel-opacity=0.29999999999999999
 trans-use-custom-bg=false
 trans-use-custom-gradient=false
 trans-use-custom-opacity=true
-trans-use-dynamic-opacity=true
+trans-use-dynamic-opacity=false
 tray-padding=-1
 window-preview-title-position='TOP'
 
@@ -333,6 +345,9 @@ speed-factor=0.44094488188976377
 
 [org/gnome/shell/extensions/notification-banner-reloaded]
 anchor-vertical=1
+
+[org/gnome/shell/extensions/user-theme]
+name=''
 
 [org/gnome/shell/keybindings]
 focus-active-notification=@as []
@@ -372,6 +387,9 @@ use-theme-colors=true
 [org/gnome/tweaks]
 show-extensions-notice=false
 
+[org/gtk/gtk4/settings/file-chooser]
+window-size=(847, 347)
+
 [org/gtk/settings/file-chooser]
 date-format='regular'
 location-mode='path-bar'
@@ -383,5 +401,5 @@ sort-column='name'
 sort-directories-first=false
 sort-order='ascending'
 type-format='category'
-window-position=(0, 88)
-window-size=(1366, 526)
+window-position=(0, 35)
+window-size=(1366, 626)
