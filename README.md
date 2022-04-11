@@ -11,7 +11,7 @@ This is my personal collection of configuration files.
 | Desktop Environment  | [Gnome](https://www.gnome.org/)                                                                                     |
 | Shell                | [Zsh](https://www.zsh.org/)                                                                                         |
 | Terminal Emulator    | [Alacritty](https://github.com/alacritty/alacritty)                                                                 |
-| Terminal Colorscheme | Voila (Custom)                                                                                                      |
+| Terminal Colorscheme | [Voila (Custom)](https://github.com/Harshit-T/dotfiles/blob/main/.config/alacritty/alacritty.yml)                   |
 | GTK Theme            | [Catppuccin](https://github.com/catppuccin/gtk)                                                                     |
 | Icon Theme           | [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)                                             |
 | Cursor Theme         | [Whitesur](https://github.com/vinceliuice/WhiteSur-cursors)                                                         |
