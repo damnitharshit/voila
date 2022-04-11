@@ -1,0 +1,100 @@
+# Alacritty Config
+#
+# ~/.config/alacritty/alacritty.yml
+
+window:
+  
+  #dimensions:
+  #  columns: 0
+  #  lines: 0
+
+  #position:
+  #  x: 0
+  #  y: 0
+
+  padding:
+    x: 20
+    y: 20
+
+  dynamic_padding: true
+
+  # full | none
+  decorations: full
+
+  # Windowed | Maximized | Fullscreen
+  startup_mode: Maximized
+  
+  opacity: 0.9
+  
+  dynamic_title: true
+  
+  gtk_theme_variant: dark
+
+scrolling:
+  
+  history: 10000
+  
+  multiplier: 3
+
+font:
+  
+  normal:
+  
+    family: cascadia code pl
+
+  size: 12
+
+  builtin_box_drawing: true 
+
+  draw_bold_text_with_bright_colors: true
+
+colors:
+
+  primary:
+    foreground: '#D9E0EE'
+    background: '#0f0f17'
+  
+  cursor:
+    text: CellBackground
+    cursor: CellForeground
+
+  normal:
+    black:   '#13141c'
+    red:     '#F28FAD'
+    green:   '#ABE9B3'
+    yellow:  '#F8BD96'
+    blue:    '#78aed3'
+    magenta: '#E8A2AF'
+    cyan:    '#89DCEB'
+    white:   '#d3dced'
+
+  bright:
+    black:   '#646a73'
+    red:     '#F28FAD'
+    green:   '#ABE9B3'
+    yellow:  '#F8BD96'
+    blue:    '#78aed3'
+    magenta: '#E8A2AF'
+    cyan:    '#89DCEB'
+    white:   '#bfc9db'
+
+selection:
+
+  save_to_clipboard: true
+
+cursor:
+
+  style:
+    # Block | Beam | Underline
+    shape: Block
+    # Never | Off | On | Always
+    blinking : on
+
+  blink_interval: 750
+
+  unfocused_hollow: true
+
+  live_config_reload: true
+
+shell:
+  program: /bin/zsh
