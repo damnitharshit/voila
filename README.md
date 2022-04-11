@@ -18,8 +18,18 @@ This is my personal collection of configuration files.
 | PDF Viewer           | [Zathura](https://pwmt.org/projects/zathura/)                                                                       |
 | Fonts                | [Roboto](https://fonts.google.com/specimen/Roboto) / [Cascadia Code PL](https://github.com/microsoft/cascadia-code) |
 
+Gnome Extensions Used:
+
+- [Impatience](https://extensions.gnome.org/extension/277/impatience/)
+- [Blur My Shell](https://extensions.gnome.org/extension/3193/blur-my-shell/)
+- [Bluetooth Quick Connect](https://extensions.gnome.org/extension/1401/bluetooth-quick-connect/)
+- [Just Perfection](https://extensions.gnome.org/extension/3843/just-perfection/)
+- [Sound Input And Output Device Chooser](https://extensions.gnome.org/extension/906/sound-output-device-chooser/)
+- [Dash To Panel (Customized)](https://github.com/Harshit-T/dotfiles/blob/main/extensions/)
+- [Improved Workspace Indicator (Customized)](https://github.com/Harshit-T/dotfiles/blob/main/extensions/)
+
 ### Previews
 
 <p align=center>
-    <img src="preview.svg" width=700 >
+    <img src="preview.jpg" width=700 >
 </p>
