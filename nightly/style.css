@@ -7,7 +7,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     /* Customize */
 
     /* background-image: url("path/to/image") */
@@ -23,10 +23,10 @@ body {
 .content {
     background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(3px);
-    border-radius: 10px; 
+    border-radius: 10px;
 }
 
-#greeting{
+#greeting {
     margin-top: 2vw;
     font-size: 2vw;
     text-align: center;

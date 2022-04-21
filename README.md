@@ -18,7 +18,7 @@ This is my personal collection of configuration files.
 | PDF Viewer           | [Zathura](https://pwmt.org/projects/zathura/)                                                                       |
 | Fonts                | [Roboto](https://fonts.google.com/specimen/Roboto) / [Cascadia Code PL](https://github.com/microsoft/cascadia-code) |
 
-Gnome Extensions Used:
+Recommended Gnome Extensions:
 
 - [Impatience](https://extensions.gnome.org/extension/277/impatience/)
 - [Blur My Shell](https://extensions.gnome.org/extension/3193/blur-my-shell/)
@@ -31,5 +31,8 @@ Gnome Extensions Used:
 ### Previews
 
 <p align=center>
-    <img src="preview.jpg" width=700 >
+    <img src="previews/desktop.jpg" width=700 >
+    <img src="previews/alacritty.jpg" width=700 >
+    <img src="previews/nautilus.jpg" width=700 >
+    <img src="previews/zathura.jpg" width=700 >
 </p>
