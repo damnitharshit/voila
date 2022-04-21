@@ -2,7 +2,7 @@
     <img src="logo.svg" width=400 >
 </p>
 
-This is my personal collection of configuration files. 
+This is my personal collection of configuration files for the gnome desktop environment. 
 
 ### Details
 
