@@ -25,7 +25,6 @@ const Intellihide = Me.imports.intellihide;
 const Utils = Me.imports.utils;
 
 const Clutter = imports.gi.Clutter;
-const Config = imports.misc.config;
 const Main = imports.ui.main;
 const Shell = imports.gi.Shell;
 const Gtk = imports.gi.Gtk;
@@ -41,47 +40,55 @@ const WorkspaceThumbnail = imports.ui.workspaceThumbnail;
 const Meta = imports.gi.Meta;
 
 const GS_HOTKEYS_KEY = 'switch-to-application-';
-const BACKGROUND_MARGIN = 12;
-const SMALL_WORKSPACE_RATIO = 0.15;
-const DASH_MAX_HEIGHT_RATIO = 0.15;
 
+// When the dash is shown, workspace window preview bottom labels go over it (default
+// gnome-shell behavior), but when the extension hides the dash, leave some space
+// so those labels don't go over a bottom panel
+const LABEL_MARGIN = 60;
 
 //timeout names
 const T1 = 'swipeEndTimeout';
+const T2 = 'numberOverlayTimeout';
 
 var Overview = class {
 
     constructor() {
         this._numHotkeys = 10;
-        this._timeoutsHandler = new Utils.TimeoutsHandler();
     }
 
-    enable (panel) {
-        this._panel = panel;
-        this.taskbar = panel.taskbar;
+    enable (primaryPanel) {
+        this._panel = primaryPanel;
+        this.taskbar = primaryPanel.taskbar;
 
         this._injectionsHandler = new Utils.InjectionsHandler();
         this._signalsHandler = new Utils.GlobalSignalsHandler();
+        this._timeoutsHandler = new Utils.TimeoutsHandler();
 
         this._optionalWorkspaceIsolation();
         this._optionalHotKeys();
         this._optionalNumberOverlay();
         this._optionalClickToExit();
+
         this._toggleDash();
+        this._adaptAlloc(true);
 
         this._signalsHandler.add([
             Me.settings,
-            'changed::stockgs-keep-dash', 
+            [
+                'changed::stockgs-keep-dash',
+                'changed::panel-sizes'
+            ], 
             () => this._toggleDash()
         ]);
-    
     }
 
     disable() {
         this._signalsHandler.destroy();
         this._injectionsHandler.destroy();
-        
+        this._timeoutsHandler.destroy();
+
         this._toggleDash(true);
+        this._adaptAlloc();
 
         // Remove key bindings
         this._disableHotKeys();
@@ -95,11 +102,32 @@ var Overview = class {
         }
 
         let visibilityFunc = visible ? 'show' : 'hide';
-        let height = visible ? -1 : 50; // 50 to preserve some spacing
+        let height = visible ? -1 : LABEL_MARGIN * Utils.getScaleFactor();
         let overviewControls = Main.overview._overview._controls;
 
-        overviewControls.dash.actor[visibilityFunc]();
-        overviewControls.dash.actor.set_height(height);
+        overviewControls.dash[visibilityFunc]();
+        overviewControls.dash.set_height(height);
+    }
+
+    _adaptAlloc(enable) {
+        let overviewControls = Main.overview._overview._controls
+        let proto = Object.getPrototypeOf(overviewControls)
+        let allocFunc = null
+
+        if (enable)
+            allocFunc = (box) => {
+                // The default overview allocation is very good and takes into account external 
+                // struts, everywhere but the bottom where the dash is usually fixed anyway.
+                // If there is a bottom panel under the dash location, give it some space here
+                let focusedPanel = this._panel.panelManager.focusedMonitorPanel
+
+                if (focusedPanel?.geom.position == St.Side.BOTTOM)
+                    box.y2 -= focusedPanel.geom.h
+                
+                proto.vfunc_allocate.call(overviewControls, box)
+            }
+
+        Utils.hookVfunc(proto, 'allocate', allocFunc)
     }
 
     /**
@@ -162,7 +190,7 @@ var Overview = class {
     }
 
     // Hotkeys
-    _activateApp(appIndex) {
+    _activateApp(appIndex, modifiers) {
         let seenApps = {};
         let apps = [];
         
@@ -182,7 +210,7 @@ var Overview = class {
             let windowCount = appIcon.window || appIcon._hotkeysCycle ? seenAppCount : appIcon._nWindows;
 
             if (Me.settings.get_boolean('shortcut-previews') && windowCount > 1 && 
-                !(Clutter.get_current_event().get_state() & ~(Clutter.ModifierType.MOD1_MASK | Clutter.ModifierType.MOD4_MASK))) { //ignore the alt (MOD1_MASK) and super key (MOD4_MASK)
+                !(modifiers & ~(Clutter.ModifierType.MOD1_MASK | Clutter.ModifierType.SUPER_MASK))) { //ignore the alt (MOD1_MASK) and super key (SUPER_MASK)
                 if (this._hotkeyPreviewCycleInfo && this._hotkeyPreviewCycleInfo.appIcon != appIcon) {
                     this._endHotkeyPreviewCycle();
                 }
@@ -191,7 +219,7 @@ var Overview = class {
                     this._hotkeyPreviewCycleInfo = {
                         appIcon: appIcon,
                         currentWindow: appIcon.window,
-                        keyFocusOutId: appIcon.actor.connect('key-focus-out', () => appIcon.actor.grab_key_focus()),
+                        keyFocusOutId: appIcon.connect('key-focus-out', () => appIcon.grab_key_focus()),
                         capturedEventId: global.stage.connect('captured-event', (actor, e) => {
                             if (e.type() == Clutter.EventType.KEY_RELEASE && e.get_key_symbol() == (Clutter.KEY_Super_L || Clutter.Super_L)) {
                                 this._endHotkeyPreviewCycle(true);
@@ -203,8 +231,8 @@ var Overview = class {
 
                     appIcon._hotkeysCycle = appIcon.window;
                     appIcon.window = null;
-                    appIcon._previewMenu.open(appIcon);
-                    appIcon.actor.grab_key_focus();
+                    appIcon._previewMenu.open(appIcon, true);
+                    appIcon.grab_key_focus();
                 }
                 
                 appIcon._previewMenu.focusNext();
@@ -212,7 +240,7 @@ var Overview = class {
                 // Activate with button = 1, i.e. same as left click
                 let button = 1;
                 this._endHotkeyPreviewCycle();
-                appIcon.activate(button, true);
+                appIcon.activate(button, modifiers, true);
             }
         }
     }
@@ -220,11 +248,12 @@ var Overview = class {
     _endHotkeyPreviewCycle(focusWindow) {
         if (this._hotkeyPreviewCycleInfo) {
             global.stage.disconnect(this._hotkeyPreviewCycleInfo.capturedEventId);
-            this._hotkeyPreviewCycleInfo.appIcon.actor.disconnect(this._hotkeyPreviewCycleInfo.keyFocusOutId);
+            this._hotkeyPreviewCycleInfo.appIcon.disconnect(this._hotkeyPreviewCycleInfo.keyFocusOutId);
 
             if (focusWindow) {
                 this._hotkeyPreviewCycleInfo.appIcon._previewMenu.activateFocused();
-            }
+            } else
+                this._hotkeyPreviewCycleInfo.appIcon._previewMenu.close()
 
             this._hotkeyPreviewCycleInfo.appIcon.window = this._hotkeyPreviewCycleInfo.currentWindow;
             delete this._hotkeyPreviewCycleInfo.appIcon._hotkeysCycle;
@@ -269,6 +298,10 @@ var Overview = class {
         let shortcutNumKeys = Me.settings.get_string('shortcut-num-keys');
         let bothNumKeys = shortcutNumKeys == 'BOTH';
         let keys = [];
+        let prefixModifiers = Clutter.ModifierType.SUPER_MASK
+
+        if (Me.settings.get_string('hotkey-prefix-text') == 'SuperAlt')
+            prefixModifiers |= Clutter.ModifierType.MOD1_MASK
         
         if (bothNumKeys || shortcutNumKeys == 'NUM_ROW') {
             keys.push('app-hotkey-', 'app-shift-hotkey-', 'app-ctrl-hotkey-'); // Regular numbers
@@ -279,10 +312,17 @@ var Overview = class {
         }
 
         keys.forEach( function(key) {
+            let modifiers = prefixModifiers
+            
+            // for some reason, in gnome-shell >= 40 Clutter.get_current_event() is now empty
+            // for keyboard events. Create here the modifiers that are needed in appicon.activate 
+            modifiers |= (key.indexOf('-shift-') >= 0 ? Clutter.ModifierType.SHIFT_MASK : 0)
+            modifiers |= (key.indexOf('-ctrl-') >= 0 ? Clutter.ModifierType.CONTROL_MASK : 0)
+
             for (let i = 0; i < this._numHotkeys; i++) {
                 let appNum = i;
 
-                Utils.addKeybinding(key + (i + 1), Me.settings, () => this._activateApp(appNum));
+                Utils.addKeybinding(key + (i + 1), Me.settings, () => this._activateApp(appNum, modifiers));
             }
         }, this);
 
@@ -364,11 +404,6 @@ var Overview = class {
         }
 
         // Restart the counting if the shortcut is pressed again
-        if (this._numberOverlayTimeoutId) {
-            Mainloop.source_remove(this._numberOverlayTimeoutId);
-            this._numberOverlayTimeoutId = 0;
-        }
-
         let hotkey_option = Me.settings.get_string('hotkeys-overlay-combo');
 
         if (hotkey_option === 'NEVER')
@@ -386,15 +421,13 @@ var Overview = class {
         }
 
         // Hide the overlay/dock after the timeout
-        this._numberOverlayTimeoutId = Mainloop.timeout_add(timeout, () => {
-            this._numberOverlayTimeoutId = 0;
-            
+        this._timeoutsHandler.add([T2, timeout, () => {
             if (hotkey_option != 'ALWAYS') {
                 this.taskbar.toggleNumberOverlay(false);
             }
             
             this._panel.intellihide.release(Intellihide.Hold.TEMPORARY);
-        });
+        }]);
     }
 
     _optionalClickToExit() {
@@ -418,27 +451,28 @@ var Overview = class {
         if (this._clickToExitEnabled)
             return;
 
-        this._oldOverviewReactive = Main.overview._overview.reactive
-        Main.overview._overview.reactive = true;
+        this._signalsHandler.addWithLabel('click-to-exit', [
+            Main.layoutManager.overviewGroup,
+            'button-release-event',
+            () => {
+                let [x, y] = global.get_pointer();
+                let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
+                
+                if (pickedActor) {
+                    let parent = pickedActor.get_parent();
 
-        Utils.hookVfunc(Object.getPrototypeOf(Main.layoutManager.overviewGroup), 'button_release_event', () => {
-            let [x, y] = global.get_pointer();
-            let pickedActor = global.stage.get_actor_at_pos(Clutter.PickMode.REACTIVE, x, y);
-            
-            if (pickedActor) {
-                let parent = pickedActor.get_parent();
+                    if ((pickedActor.has_style_class_name && 
+                        pickedActor.has_style_class_name('apps-scroll-view') && 
+                        !pickedActor.has_style_pseudo_class('last-child')) ||
+                        (parent?.has_style_class_name && 
+                        parent.has_style_class_name('window-picker')) ||
+                        Main.overview._overview._controls._searchEntryBin.contains(pickedActor))
+                        return Clutter.EVENT_PROPAGATE;
+                } 
 
-                if ((pickedActor.has_style_class_name && 
-                     pickedActor.has_style_class_name('apps-scroll-view') && 
-                     !pickedActor.has_style_pseudo_class('last-child')) ||
-                    (parent?.has_style_class_name && 
-                     parent.has_style_class_name('window-picker')) ||
-                    Main.overview._overview._controls._searchEntryBin.contains(pickedActor))
-                    return Clutter.EVENT_PROPAGATE;
-            } 
-
-            Main.overview.toggle()
-        })
+                Main.overview.toggle()
+            }
+        ]);
 
         this._clickToExitEnabled = true;
     }
@@ -447,8 +481,7 @@ var Overview = class {
         if (!this._clickToExitEnabled)
             return;
         
-        Main.overview._overview.reactive = this._oldOverviewReactive;
-        Utils.hookVfunc(Object.getPrototypeOf(Main.layoutManager.overviewGroup), 'button_release_event', null)
+        this._signalsHandler.removeWithLabel('click-to-exit')
 
         this._clickToExitEnabled = false;
     }

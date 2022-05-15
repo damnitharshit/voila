@@ -34,8 +34,8 @@ const PanelSettings = Me.imports.panelSettings;
 const Proximity = Me.imports.proximity;
 const Taskbar = Me.imports.taskbar;
 const Utils = Me.imports.utils;
+const DesktopIconsIntegration = Me.imports.desktopIconsIntegration;
 
-const Config = imports.misc.config;
 const Gi = imports._gi;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
@@ -62,11 +62,6 @@ var PanelManager = class {
         this.panelsElementPositions = {};
 
         this._saveMonitors();
-
-        Utils.getAppDisplayViews().forEach(v => {
-            Utils.wrapActor(v.view);
-            Utils.wrapActor(v.view._grid);
-        });
     }
 
     enable(reset) {
@@ -74,11 +69,6 @@ var PanelManager = class {
 
         this.dtpPrimaryMonitor = Main.layoutManager.monitors[dtpPrimaryIndex] || Main.layoutManager.primaryMonitor;
         this.proximityManager = new Proximity.ProximityManager();
-
-        this._oldGetShowAppsButton = imports.ui.main.overview.dash.showAppsButton;
-
-        Utils.wrapActor(Main.panel);
-        Utils.wrapActor(Main.overview.dash || 0);
 
         this.primaryPanel = this._createPanel(this.dtpPrimaryMonitor, Me.settings.get_boolean('stockgs-keep-top-panel'));
         this.allPanels = [ this.primaryPanel ];
@@ -108,6 +98,7 @@ var PanelManager = class {
             p.taskbar.iconAnimator.start();
         });
 
+        this._setDesktopIconsMargins();
         //in 3.32, BoxPointer now inherits St.Widget
         if (BoxPointer.BoxPointer.prototype.vfunc_get_preferred_height) {
             let panelManager = this;
@@ -125,6 +116,8 @@ var PanelManager = class {
         this.setFocusedMonitor(this.dtpPrimaryMonitor);
         
         if (reset) return;
+
+        this._desktopIconsUsableArea = new DesktopIconsIntegration.DesktopIconsUsableAreaClass();
 
         this._oldUpdatePanelBarrier = Main.layoutManager._updatePanelBarrier;
         Main.layoutManager._updatePanelBarrier = (panel) => {
@@ -146,8 +139,6 @@ var PanelManager = class {
 
         this._oldUpdateWorkspacesViews = Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews;
         Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._newUpdateWorkspacesViews.bind(Main.overview._overview._controls._workspacesDisplay);
-
-        Main.overview.getShowAppsButton = this._newGetShowAppsButton.bind(this);
 
         LookingGlass.LookingGlass.prototype._oldResize = LookingGlass.LookingGlass.prototype._resize;
         LookingGlass.LookingGlass.prototype._resize = _newLookingGlassResize;
@@ -181,6 +172,16 @@ var PanelManager = class {
                 Me.settings,
                 'changed::intellihide-key-toggle-text',
                 () => this._setKeyBindings(true)
+            ],
+            [
+                Me.settings,
+                'changed::panel-sizes',
+                () => {
+                    GLib.idle_add(GLib.PRIORITY_LOW, () => {
+                        this._setDesktopIconsMargins();
+                        return GLib.SOURCE_REMOVE;
+                    });
+                }
             ],
             [
                 Utils.DisplayWrapper.getMonitorManager(),
@@ -235,8 +236,8 @@ var PanelManager = class {
                 p.panelBox.destroy();
             } else {
                 p.panelBox.remove_child(p);
-                p.remove_child(p.panel.actor);
-                p.panelBox.add(p.panel.actor);
+                p.remove_child(p.panel);
+                p.panelBox.add(p.panel);
 
                 p.panelBox.set_position(clipContainer.x, clipContainer.y);
 
@@ -274,8 +275,6 @@ var PanelManager = class {
 
         Main.overview._overview._controls._workspacesDisplay._updateWorkspacesViews = this._oldUpdateWorkspacesViews;
 
-        Utils.getPanelGhost().set_size(-1, -1);
-
         LookingGlass.LookingGlass.prototype._resize = LookingGlass.LookingGlass.prototype._oldResize;
         delete LookingGlass.LookingGlass.prototype._oldResize;
 
@@ -283,9 +282,33 @@ var PanelManager = class {
         delete LookingGlass.LookingGlass.prototype._oldOpen
 
         delete Main.panel.style;
+        this._desktopIconsUsableArea.destroy();
+        this._desktopIconsUsableArea = null;
+    }
+
+    _setDesktopIconsMargins() {
+        this._desktopIconsUsableArea?.resetMargins();
+        this.allPanels.forEach(p => {
+            switch(p.geom.position) {
+                case St.Side.TOP:
+                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, p.geom.h, 0, 0, 0);
+                    break;
+                case St.Side.BOTTOM:
+                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, p.geom.h, 0, 0);
+                    break;
+                case St.Side.LEFT:
+                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, 0, p.geom.w, 0);
+                    break;
+                case St.Side.RIGHT:
+                    this._desktopIconsUsableArea?.setMargins(p.monitor.index, 0, 0, 0, p.geom.w);
+                    break;
+            }
+        });
     }
 
     setFocusedMonitor(monitor) {
+        this.focusedMonitorPanel = this.allPanels.find(p => p.monitor == monitor)
+
         if (!this.checkIfFocusedMonitor(monitor)) {
             Main.overview._overview.clear_constraints();
             Main.overview._overview.add_constraint(new Layout.MonitorConstraint({ index: monitor.index }));
@@ -313,8 +336,9 @@ var PanelManager = class {
                 this.bind_property('opacity', view, 'opacity', GObject.BindingFlags.SYNC_CREATE);
                 this.add_child(view);
             } else {
-                // todo exorcise this after the GS 42 release
-                view = new ProxySecondaryMonitorDisplay(i,
+                // No idea why atm, but we need the import at the top of this file and to use the
+                // full imports ns here, otherwise SecondaryMonitorDisplay can't be used ¯\_(ツ)_/¯
+                view = new imports.ui.workspacesView.SecondaryMonitorDisplay(i,
                     this._controls,
                     this._scrollAdjustment,
                     this._fitModeAdjustment,
@@ -372,7 +396,7 @@ var PanelManager = class {
         } else {
             panelBox = Main.layoutManager.panelBox;
             Main.layoutManager._untrackActor(panelBox);
-            panelBox.remove_child(Main.panel.actor);
+            panelBox.remove_child(Main.panel);
             Main.layoutManager.removeChrome(panelBox);
         }
 
@@ -406,9 +430,8 @@ var PanelManager = class {
 
     _adjustPanelMenuButton(button, monitor, arrowSide) {
         if (button) {
-            Utils.wrapActor(button);
             button.menu._boxPointer._dtpSourceActor = button.menu._boxPointer.sourceActor;
-            button.menu._boxPointer.sourceActor = button.actor;
+            button.menu._boxPointer.sourceActor = button;
             button.menu._boxPointer._userArrowSide = arrowSide;
             button.menu._boxPointer._dtpInPanel = 1;
 
@@ -480,21 +503,7 @@ var PanelManager = class {
         });
     }
 
-    _newGetShowAppsButton() {
-        let focusedMonitorIndex = Utils.findIndex(this.allPanels, p => this.checkIfFocusedMonitor(p.monitor));
-        
-        return this.allPanels[focusedMonitorIndex].taskbar.showAppsButton;
-    }
 };
-
-// No idea why atm, but we need the import at the top of this file and this
-// "proxy" class, otherwise SecondaryMonitorDisplay can't be used ¯\_(ツ)_/¯
-var ProxySecondaryMonitorDisplay = GObject.registerClass({
-}, class ProxySecondaryMonitorDisplay extends imports.ui.workspacesView.SecondaryMonitorDisplay {
-    _init(...params) {
-        super._init(...params)
-    }
-});
 
 // This class drives long-running icon animations, to keep them running in sync
 // with each other.
@@ -729,14 +738,12 @@ function _newLookingGlassResize() {
     let topOffset = primaryMonitorPanel.getPosition() == St.Side.TOP ? primaryMonitorPanel.dtpSize + 8 : 32;
 
     this._oldResize();
-    Utils.wrapActor(this);
-    Utils.wrapActor(this._objInspector);
 
-    this._hiddenY = Main.layoutManager.primaryMonitor.y + topOffset - this.actor.height;
-    this._targetY = this._hiddenY + this.actor.height;
-    this.actor.y = this._hiddenY;
+    this._hiddenY = Main.layoutManager.primaryMonitor.y + topOffset - this.height;
+    this._targetY = this._hiddenY + this.height;
+    this.y = this._hiddenY;
 
-    this._objInspector.actor.set_position(this.actor.x + Math.floor(this.actor.width * 0.1), this._targetY + Math.floor(this.actor.height * 0.1));
+    this._objInspector.set_position(this.x + Math.floor(this.width * 0.1), this._targetY + Math.floor(this.height * 0.1));
 }
 
 function _newLookingGlassOpen() {

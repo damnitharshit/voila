@@ -27,10 +27,9 @@ const GObject = imports.gi.GObject;
 const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
 const Mainloop = imports.mainloop;
-const Config = imports.misc.config;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
+const ExtensionUtils = imports.misc.extensionUtils;
 const Gettext = imports.gettext.domain(Me.metadata['gettext-domain']);
 const _ = Gettext.gettext;
 const N_ = function(e) { return e };
@@ -82,9 +81,9 @@ function cssHexString(css) {
 
 function setShortcut(settings, shortcutName) {
     let shortcut_text = settings.get_string(shortcutName + '-text');
-    let [key, mods] = Gtk.accelerator_parse(shortcut_text);
+    let [success, key, mods] = Gtk.accelerator_parse(shortcut_text);
 
-    if (Gtk.accelerator_valid(key, mods)) {
+    if (success && Gtk.accelerator_valid(key, mods)) {
         let shortcut = Gtk.accelerator_name(key, mods);
         settings.set_strv(shortcutName, [shortcut]);
     }
@@ -101,9 +100,9 @@ function checkHotkeyPrefix(settings) {
        hotkeyPrefix = '<Super>';
     else if (hotkeyPrefix == 'SuperAlt')
        hotkeyPrefix = '<Super><Alt>';
-    let [, mods]       = Gtk.accelerator_parse(hotkeyPrefix);
-    let [, shift_mods] = Gtk.accelerator_parse('<Shift>' + hotkeyPrefix);
-    let [, ctrl_mods]  = Gtk.accelerator_parse('<Ctrl>'  + hotkeyPrefix);
+    let [ , , mods]       = Gtk.accelerator_parse(hotkeyPrefix);
+    let [ , , shift_mods] = Gtk.accelerator_parse('<Shift>' + hotkeyPrefix);
+    let [ , , ctrl_mods]  = Gtk.accelerator_parse('<Ctrl>'  + hotkeyPrefix);
 
     let numHotkeys = 10;
     for (let i = 1; i <= numHotkeys; i++) {
@@ -159,7 +158,7 @@ function mergeObjects(main, bck) {
 const Preferences = class {
 
     constructor() {
-        this._settings = Convenience.getSettings('org.gnome.shell.extensions.dash-to-panel');
+        this._settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.dash-to-panel');
         this._rtl = (Gtk.Widget.get_default_direction() == Gtk.TextDirection.RTL);
         this._builder = new Gtk.Builder();
         this._builder.set_scope(new BuilderScope(this));
@@ -1592,6 +1591,11 @@ const Preferences = class {
                             'sensitive',
                             Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.INVERT_BOOLEAN);
 
+        this._settings.bind('progress-show-count',
+                            this._builder.get_object('show_notification_badge_switch'),
+                            'active',
+                            Gio.SettingsBindFlags.DEFAULT);
+
         this._builder.get_object('group_apps_label_font_color_colorbutton').connect('color-set',  (button) => {
             let rgba = button.get_rgba();
             let css = rgba.to_string();
@@ -2269,7 +2273,9 @@ const Preferences = class {
         dialog.show();
 
         dialog.connect('response', (dialog, id) => {
-            acceptHandler.call(this, dialog.get_file().get_path());
+            if (id == Gtk.ResponseType.ACCEPT)
+                acceptHandler.call(this, dialog.get_file().get_path());
+            
             dialog.destroy();
         });
     }
@@ -2449,7 +2455,7 @@ const BuilderScope = GObject.registerClass({
 });
 
 function init() {
-    Convenience.initTranslations();
+    ExtensionUtils.initTranslations();
 }
 
 function fillPreferencesWindow(window) {
@@ -2458,7 +2464,14 @@ function fillPreferencesWindow(window) {
     let preferences = new Preferences();
     let box = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL});
 
-    imports.gi.Adw && box.append(new imports.gi.Adw.HeaderBar);
+    // dummy page to prevent 'Extension did not provide any UI'
+    // error until we migrate to Adw
+    let dummyPage = new imports.gi.Adw.PreferencesPage()
+
+    box.append(new imports.gi.Adw.HeaderBar);
+    window.add(dummyPage);
+    window.visible_page = dummyPage
+
     box.append(preferences.notebook);
     window.set_content(box);
 }

@@ -1,4 +1,28 @@
+# Zathura config
+# ~/.config/zathura/zathurarc
+
+# --- General ---
+
+# Layout
 set window-title-basename "true"
+set statusbar-h-padding 0
+set statusbar-v-padding 0
+set page-padding 3
+
+# Keybindings
+map u scroll half-up 
+map d scroll half-down
+map D toggle_page_mode
+map r reload
+map R rotate
+map K zoom in
+map J zoom out
+map i recolor
+map p print
+
+# --- Colors ---
+
+set recolor true
 
 set notification-error-bg       "#aa4650" # Dark Red
 set notification-error-fg       "#101216" # Background
@@ -36,20 +60,3 @@ set render-loading-bg           "#d6deed" # Foreground
 
 set recolor-lightcolor          "#101216" # Background
 set recolor-darkcolor           "#d6deed" # Foreground
-
-set recolor true
-
-set statusbar-h-padding 0
-set statusbar-v-padding 0
-set page-padding 3
-
-map u scroll half-up 
-map d scroll half-down
-map D toggle_page_mode
-map r reload
-map R rotate
-map K zoom in
-map J zoom out
-map i recolor
-map p print
-
