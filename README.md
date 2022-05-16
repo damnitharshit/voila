@@ -12,7 +12,7 @@ This is my personal collection of configuration files for the gnome desktop envi
 | Shell                | [Zsh](https://www.zsh.org/)                                                                                         |
 | Terminal Emulator    | [Kitty](https://github.com/kovidgoyal/kitty)                                                                        |
 | Terminal Colorscheme | [Voila (Custom)](https://github.com/Harshit-T/voila/blob/main/.config/kitty/kitty.conf)                             |
-| GTK Theme            | [Tokyo Night](https://github.com/Harshit-T/voila/blob/main/.config/kitty/kitty.conf)                                |
+| GTK Theme            | [Tokyo Night](https://github.com/Fausto-Korpsvart/Tokyo-Night-GTK-Theme)                                            |
 | Icon Theme           | [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme)                                             |
 | Cursor Theme         | [Whitesur](https://github.com/vinceliuice/WhiteSur-cursors)                                                         |
 | PDF Viewer           | [Zathura](https://pwmt.org/projects/zathura/)                                                                       |
