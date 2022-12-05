@@ -29,5 +29,5 @@ This is my personal collection of configuration files for the gnome desktop envi
 ### Previews
 
 <p align=center>
-    <img src="preview.png" width=700 >
+    <img src="preview.jpg" width=700 >
 </p>
