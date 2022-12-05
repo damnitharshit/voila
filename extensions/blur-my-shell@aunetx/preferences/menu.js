@@ -31,16 +31,34 @@ function addMenuToHeader(window, builder) {
 
     // a list of actions with their associated link
     const actions = [
-        { name: 'open-bug-report', link: 'https://github.com/aunetx/blur-my-shell/issues' },
-        { name: 'open-readme', link: 'https://github.com/aunetx/blur-my-shell' },
-        { name: 'open-license', link: 'https://github.com/aunetx/blur-my-shell/blob/master/LICENSE' },
-        { name: 'donate-github', link: 'https://github.com/sponsors/aunetx' },
-        { name: 'donate-kofi', link: 'https://ko-fi.com/aunetx' },
+        {
+            name: 'open-bug-report',
+            link: 'https://github.com/aunetx/blur-my-shell/issues'
+        },
+        {
+            name: 'open-readme',
+            link: 'https://github.com/aunetx/blur-my-shell'
+        },
+        {
+            name: 'open-license',
+            link: 'https://github.com/aunetx/blur-my-shell/blob/master/LICENSE'
+        },
+        {
+            name: 'donate-github',
+            link: 'https://github.com/sponsors/aunetx'
+        },
+        {
+            name: 'donate-kofi',
+            link: 'https://ko-fi.com/aunetx'
+        },
     ];
 
     actions.forEach(action => {
         let act = new Gio.SimpleAction({ name: action.name });
-        act.connect('activate', _ => Gtk.show_uri(window, action.link, Gdk.CURRENT_TIME));
+        act.connect(
+            'activate',
+            _ => Gtk.show_uri(window, action.link, Gdk.CURRENT_TIME)
+        );
         actionGroup.add_action(act);
     });
 }

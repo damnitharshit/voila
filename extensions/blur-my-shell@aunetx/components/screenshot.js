@@ -4,6 +4,8 @@ const { Shell, Gio, Meta } = imports.gi;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const ColorEffect = Me.imports.effects.color_effect.ColorEffect;
+const NoiseEffect = Me.imports.effects.noise_effect.NoiseEffect;
 
 
 var ScreenshotBlur = class ScreenshotBlur {
@@ -17,6 +19,8 @@ var ScreenshotBlur = class ScreenshotBlur {
         this._log("blurring screenshot's window selector");
 
         // connect to every background change (even without changing image)
+        // FIXME this signal is fired very often, so we should find another one
+        //       fired only when necessary (but that still catches all cases)
         this.connections.connect(
             Main.layoutManager._backgroundGroup,
             'notify',
@@ -44,16 +48,16 @@ var ScreenshotBlur = class ScreenshotBlur {
 
     update_backgrounds() {
         // remove every old background
-        Main.screenshotUI._windowSelectors.forEach(actor => {
-            if (actor._blur_actor)
-                actor.remove_child(actor._blur_actor);
-        });
-        this.effects = [];
+        this.remove();
 
         // add new backgrounds
         for (let i = 0; i < Main.screenshotUI._windowSelectors.length; i++) {
             const actor = Main.screenshotUI._windowSelectors[i];
             const monitor = Main.layoutManager.monitors[i];
+
+            if (!monitor)
+                continue;
+
             const bg_actor = this.create_background_actor(monitor);
             actor.insert_child_at_index(bg_actor, 0);
             actor._blur_actor = bg_actor;
@@ -73,50 +77,90 @@ var ScreenshotBlur = class ScreenshotBlur {
 
         bg_actor.set_content(background.get_content());
 
-        let effect = new Shell.BlurEffect({
-            brightness: this.prefs.SCREENSHOT_CUSTOMIZE.get()
-                ? this.prefs.SCREENSHOT_BRIGHTNESS.get()
-                : this.prefs.BRIGHTNESS.get(),
-            sigma: this.prefs.SCREENSHOT_CUSTOMIZE.get()
-                ? this.prefs.SCREENSHOT_SIGMA.get()
-                : this.prefs.SIGMA.get(),
+        let blur_effect = new Shell.BlurEffect({
+            brightness: this.prefs.screenshot.CUSTOMIZE
+                ? this.prefs.screenshot.BRIGHTNESS
+                : this.prefs.BRIGHTNESS,
+            sigma: this.prefs.screenshot.CUSTOMIZE
+                ? this.prefs.screenshot.SIGMA
+                : this.prefs.SIGMA
+                * monitor.geometry_scale,
             mode: Shell.BlurMode.ACTOR
         });
 
-        bg_actor.add_effect(effect);
-        this.effects.push(effect);
+        // store the scale in the effect in order to retrieve it in set_sigma
+        blur_effect.scale = monitor.geometry_scale;
 
-        bg_actor.set_x(monitor.x);
-        bg_actor.set_y(monitor.y);
+        let color_effect = new ColorEffect({
+            color: this.prefs.screenshot.CUSTOMIZE
+                ? this.prefs.screenshot.COLOR
+                : this.prefs.COLOR
+        });
+
+        let noise_effect = new NoiseEffect({
+            noise: this.prefs.screenshot.CUSTOMIZE
+                ? this.prefs.screenshot.NOISE_AMOUNT
+                : this.prefs.NOISE_AMOUNT,
+            lightness: this.prefs.screenshot.CUSTOMIZE
+                ? this.prefs.screenshot.NOISE_LIGHTNESS
+                : this.prefs.NOISE_LIGHTNESS
+        });
+
+        bg_actor.add_effect(color_effect);
+        bg_actor.add_effect(noise_effect);
+        bg_actor.add_effect(blur_effect);
+        this.effects.push({ blur_effect, color_effect, noise_effect });
 
         return bg_actor;
     }
 
     set_sigma(s) {
         this.effects.forEach(effect => {
-            effect.sigma = s;
+            effect.blur_effect.sigma = s * effect.blur_effect;
         });
     }
 
     set_brightness(b) {
         this.effects.forEach(effect => {
-            effect.brightness = b;
+            effect.blur_effect.brightness = b;
         });
     }
 
-    disable() {
-        this._log("removing blur from screenshot's window selector");
+    set_color(c) {
+        this.effects.forEach(effect => {
+            effect.color_effect.color = c;
+        });
+    }
 
+    set_noise_amount(n) {
+        this.effects.forEach(effect => {
+            effect.noise_effect.noise = n;
+        });
+    }
+
+    set_noise_lightness(l) {
+        this.effects.forEach(effect => {
+            effect.noise_effect.lightness = l;
+        });
+    }
+
+    remove() {
         Main.screenshotUI._windowSelectors.forEach(actor => {
             if (actor._blur_actor)
                 actor.remove_child(actor._blur_actor);
         });
         this.effects = [];
+    }
+
+    disable() {
+        this._log("removing blur from screenshot's window selector");
+
+        this.remove();
         this.connections.disconnect_all();
     }
 
     _log(str) {
-        if (this.prefs.DEBUG.get())
-            log(`[Blur my Shell] ${str}`);
+        if (this.prefs.DEBUG)
+            log(`[Blur my Shell > screenshot]   ${str}`);
     }
 };

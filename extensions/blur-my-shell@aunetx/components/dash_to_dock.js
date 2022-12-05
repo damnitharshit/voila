@@ -5,7 +5,13 @@ const Main = imports.ui.main;
 const Signals = imports.signals;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const PaintSignals = Me.imports.conveniences.paint_signals;
+const { PaintSignals } = Me.imports.effects.paint_signals;
+
+const DASH_STYLES = [
+    "transparent-dash",
+    "light-dash",
+    "dark-dash"
+];
 
 
 /// This type of object is created for every dash found, and talks to the main
@@ -27,7 +33,10 @@ class DashInfos {
             this._log("removing blur from dash");
             this.dash.get_parent().remove_child(this.background_parent);
             this.dash._background.style = this.old_style;
-            this.dash.remove_style_class_name('blurred-dash');
+
+            DASH_STYLES.forEach(
+                style => this.dash.remove_style_class_name(style)
+            );
         });
 
         dash_blur.connections.connect(dash_blur, 'update-sigma', () => {
@@ -40,12 +49,22 @@ class DashInfos {
 
         dash_blur.connections.connect(dash_blur, 'override-background', () => {
             this.dash._background.style = null;
-            this.dash.set_style_class_name('blurred-dash');
+
+            DASH_STYLES.forEach(
+                style => this.dash.remove_style_class_name(style)
+            );
+
+            this.dash.set_style_class_name(
+                DASH_STYLES[this.prefs.dash_to_dock.STYLE_DASH_TO_DOCK]
+            );
         });
 
         dash_blur.connections.connect(dash_blur, 'reset-background', () => {
             this.dash._background.style = this.old_style;
-            this.dash.remove_style_class_name('blurred-dash');
+
+            DASH_STYLES.forEach(
+                style => this.dash.remove_style_class_name(style)
+            );
         });
 
         dash_blur.connections.connect(dash_blur, 'show', () => {
@@ -58,8 +77,8 @@ class DashInfos {
     }
 
     _log(str) {
-        if (this.prefs.DEBUG.get())
-            log(`[Blur my Shell] ${str}`);
+        if (this.prefs.DEBUG)
+            log(`[Blur my Shell > dash]         ${str}`);
     }
 }
 
@@ -68,26 +87,29 @@ var DashBlur = class DashBlur {
         this.dashes = [];
         this.connections = connections;
         this.prefs = prefs;
-        this.paint_signals = new PaintSignals.PaintSignals(connections);
-        this.sigma = this.prefs.DASH_TO_DOCK_CUSTOMIZE.get()
-            ? this.prefs.DASH_TO_DOCK_SIGMA.get()
-            : this.prefs.SIGMA.get();
-        this.brightness = this.prefs.DASH_TO_DOCK_CUSTOMIZE.get()
-            ? this.prefs.DASH_TO_DOCK_BRIGHTNESS.get()
-            : this.prefs.BRIGHTNESS.get();
+        this.paint_signals = new PaintSignals(connections);
+        this.sigma = this.prefs.dash_to_dock.CUSTOMIZE
+            ? this.prefs.dash_to_dock.SIGMA
+            : this.prefs.SIGMA;
+        this.brightness = this.prefs.dash_to_dock.CUSTOMIZE
+            ? this.prefs.dash_to_dock.BRIGHTNESS
+            : this.prefs.BRIGHTNESS;
+        this.enabled = false;
     }
 
     enable() {
         this.connections.connect(Main.uiGroup, 'actor-added', (_, actor) => {
             if (
-                (actor.get_name() == "dashtodockContainer") &&
-                (actor.constructor.name == 'DashToDock')
+                (actor.get_name() === "dashtodockContainer") &&
+                (actor.constructor.name === 'DashToDock')
             )
                 this.try_blur(actor);
         });
 
         this.blur_existing_dashes();
         this.connect_to_overview();
+
+        this.enabled = true;
     }
 
     // Finds all existing dashes on every monitor, and call `try_blur` on them
@@ -97,8 +119,8 @@ var DashBlur = class DashBlur {
 
         // blur every dash found, filtered by name
         Main.uiGroup.get_children().filter((child) => {
-            return (child.get_name() == "dashtodockContainer") &&
-                (child.constructor.name == 'DashToDock');
+            return (child.get_name() === "dashtodockContainer") &&
+                (child.constructor.name === 'DashToDock');
         }).forEach(this.try_blur.bind(this));
     }
 
@@ -108,20 +130,20 @@ var DashBlur = class DashBlur {
 
         // verify that we did not already blur that dash
         if (!dash_box.get_children().some((child) => {
-            return child.get_name() == "dash-blurred-background-parent";
+            return child.get_name() === "dash-blurred-background-parent";
         })) {
             this._log("dash to dock found, blurring it");
 
             // finally blur the dash
             let dash = dash_box.get_children().find(child => {
-                return child.get_name() == 'dash';
+                return child.get_name() === 'dash';
             });
 
             this.dashes.push(this.blur_dash_from(dash, dash_container));
         }
     }
 
-    // Blurs the dash and returns a `DashInfos` containing its informations
+    // Blurs the dash and returns a `DashInfos` containing its information
     blur_dash_from(dash, dash_container) {
         // the effect to be applied
         let effect = new Shell.BlurEffect({
@@ -169,12 +191,12 @@ var DashBlur = class DashBlur {
         //`Shell.BlurEffect` does not repaint when shadows are under it. [1]
         //
         // This does not entirely fix this bug (shadows caused by windows
-        // still cause artefacts), but it prevents the shadows of the panel
-        // buttons to cause artefacts on the panel itself
+        // still cause artifacts), but it prevents the shadows of the panel
+        // buttons to cause artifacts on the panel itself
         //
         // [1]: https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/2857
 
-        if (this.prefs.HACKS_LEVEL.get() == 1) {
+        if (this.prefs.HACKS_LEVEL === 1) {
             this._log("dash hack level 1");
             this.paint_signals.disconnect_all();
 
@@ -186,9 +208,9 @@ var DashBlur = class DashBlur {
                 try {
                     let zone = icon.get_child_at_index(0);
 
-                    this.connections.connect(zone, 'enter-event', rp);
-                    this.connections.connect(zone, 'leave-event', rp);
-                    this.connections.connect(zone, 'button-press-event', rp);
+                    this.connections.connect(zone, [
+                        'enter-event', 'leave-event', 'button-press-event'
+                    ], rp);
                 } catch (e) {
                     this._log(`${e}, continuing`);
                 }
@@ -198,9 +220,9 @@ var DashBlur = class DashBlur {
                 try {
                     let zone = actor.get_child_at_index(0);
 
-                    this.connections.connect(zone, 'enter-event', rp);
-                    this.connections.connect(zone, 'leave-event', rp);
-                    this.connections.connect(zone, 'button-press-event', rp);
+                    this.connections.connect(zone, [
+                        'enter-event', 'leave-event', 'button-press-event'
+                    ], rp);
                 } catch (e) {
                     this._log(`${e}, continuing`);
                 }
@@ -208,12 +230,12 @@ var DashBlur = class DashBlur {
 
             let show_apps = dash._showAppsIcon;
 
-            this.connections.connect(show_apps, 'enter-event', rp);
-            this.connections.connect(show_apps, 'leave-event', rp);
-            this.connections.connect(show_apps, 'button-press-event', rp);
+            this.connections.connect(show_apps, [
+                'enter-event', 'leave-event', 'button-press-event'
+            ], rp);
 
             this.connections.connect(dash, 'leave-event', rp);
-        } else if (this.prefs.HACKS_LEVEL.get() == 2) {
+        } else if (this.prefs.HACKS_LEVEL === 2) {
             this._log("dash hack level 2");
 
             this.paint_signals.connect(background, effect);
@@ -237,12 +259,12 @@ var DashBlur = class DashBlur {
     connect_to_overview() {
         this.connections.disconnect_all_for(Main.overview);
 
-        if (this.prefs.DASH_TO_DOCK_UNBLUR_IN_OVERVIEW.get()) {
+        if (this.prefs.dash_to_dock.UNBLUR_IN_OVERVIEW) {
             this.connections.connect(
-                Main.overview, 'shown', this.hide.bind(this)
+                Main.overview, 'showing', this.hide.bind(this)
             );
             this.connections.connect(
-                Main.overview, 'hiding', this.show.bind(this)
+                Main.overview, 'hidden', this.show.bind(this)
             );
         }
     };
@@ -250,7 +272,7 @@ var DashBlur = class DashBlur {
     /// Updates the background to either remove it or not, according to the
     /// user preferences.
     update_background() {
-        if (this.prefs.DASH_TO_DOCK_OVERRIDE_BACKGROUND.get())
+        if (this.prefs.dash_to_dock.OVERRIDE_BACKGROUND)
             this.emit('override-background', true);
         else
             this.emit('reset-background', true);
@@ -266,6 +288,11 @@ var DashBlur = class DashBlur {
         this.emit('update-brightness', true);
     }
 
+    // not implemented for dynamic blur
+    set_color(c) { }
+    set_noise_amount(n) { }
+    set_noise_lightness(l) { }
+
     disable() {
         this._log("removing blur from dashes");
 
@@ -273,6 +300,8 @@ var DashBlur = class DashBlur {
 
         this.dashes = [];
         this.connections.disconnect_all();
+
+        this.enabled = false;
     }
 
     show() {
@@ -283,8 +312,8 @@ var DashBlur = class DashBlur {
     }
 
     _log(str) {
-        if (this.prefs.DEBUG.get())
-            log(`[Blur my Shell] ${str}`);
+        if (this.prefs.DEBUG)
+            log(`[Blur my Shell > dash manager] ${str}`);
     }
 };
 

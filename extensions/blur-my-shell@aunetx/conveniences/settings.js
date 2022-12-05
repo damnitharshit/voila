@@ -1,15 +1,18 @@
 'use strict';
 
-const Gio = imports.gi.Gio;
+const { Gio, GLib } = imports.gi;
+const Signals = imports.signals;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 
-/// An enum non-extensively describing the type of a gsettings key.
+/// An enum non-extensively describing the type of gsettings key.
 var Type = {
     B: 'Boolean',
     I: 'Integer',
     D: 'Double',
-    S: 'String'
+    S: 'String',
+    C: 'Color',
+    AS: 'StringArray'
 };
 
 /// An object to get and manage the gsettings preferences.
@@ -28,91 +31,131 @@ var Prefs = class Prefs {
         let settings = this.settings = ExtensionUtils.getSettings();
         this.keys = keys;
 
-        this.keys.forEach(key => {
-            let property_name = this.get_property_name(key.name);
-
-            switch (key.type) {
-                case Type.B:
-                    this[property_name] = {
-                        key: key.name,
-                        get: function () {
-                            return settings.get_boolean(this.key);
-                        },
-                        set: function (v) {
-                            settings.set_boolean(this.key, v);
-                        },
-                        changed: function (cb) {
-                            return settings.connect('changed::' + this.key, cb);
-                        },
-                        disconnect: function () {
-                            return settings.disconnect.apply(
-                                settings, arguments
-                            );
-                        }
-                    };
-                    break;
-
-                case Type.I:
-                    this[property_name] = {
-                        key: key.name,
-                        get: function () {
-                            return settings.get_int(this.key);
-                        },
-                        set: function (v) {
-                            settings.set_int(this.key, v);
-                        },
-                        changed: function (cb) {
-                            return settings.connect('changed::' + this.key, cb);
-                        },
-                        disconnect: function () {
-                            return settings.disconnect.apply(
-                                settings, arguments
-                            );
-                        },
-                    };
-                    break;
-
-                case Type.D:
-                    this[property_name] = {
-                        key: key.name,
-                        get: function () {
-                            return settings.get_double(this.key);
-                        },
-                        set: function (v) {
-                            settings.set_double(this.key, v);
-                        },
-                        changed: function (cb) {
-                            return settings.connect('changed::' + this.key, cb);
-                        },
-                        disconnect: function () {
-                            return settings.disconnect.apply(
-                                settings, arguments
-                            );
-                        },
-                    };
-                    break;
-
-                case Type.S:
-                    this[property_name] = {
-                        key: key.name,
-                        get: function () {
-                            return settings.get_string(this.key);
-                        },
-                        set: function (v) {
-                            settings.set_string(this.key, v);
-                        },
-                        changed: function (cb) {
-                            return settings.connect('changed::' + this.key, cb);
-                        },
-                        disconnect: function () {
-                            return settings.disconnect.apply(
-                                settings, arguments
-                            );
-                        },
-                    };
-                    break;
+        this.keys.forEach(bundle => {
+            let component = this;
+            let component_settings = settings;
+            if (bundle.component !== "general") {
+                let bundle_component = bundle.component.replaceAll('-', '_');
+                this[bundle_component] = {
+                    settings: this.settings.get_child(bundle.component)
+                };
+                component = this[bundle_component];
+                component_settings = settings.get_child(bundle.component);
             }
+
+
+            bundle.schemas.forEach(key => {
+                let property_name = this.get_property_name(key.name);
+
+                switch (key.type) {
+                    case Type.B:
+                        Object.defineProperty(component, property_name, {
+                            get() {
+                                return component_settings.get_boolean(key.name);
+                            },
+                            set(v) {
+                                component_settings.set_boolean(key.name, v);
+                            }
+                        });
+                        break;
+
+                    case Type.I:
+                        Object.defineProperty(component, property_name, {
+                            get() {
+                                return component_settings.get_int(key.name);
+                            },
+                            set(v) {
+                                component_settings.set_int(key.name, v);
+                            }
+                        });
+                        break;
+
+                    case Type.D:
+                        Object.defineProperty(component, property_name, {
+                            get() {
+                                return component_settings.get_double(key.name);
+                            },
+                            set(v) {
+                                component_settings.set_double(key.name, v);
+                            }
+                        });
+                        break;
+
+                    case Type.S:
+                        Object.defineProperty(component, property_name, {
+                            get() {
+                                return component_settings.get_string(key.name);
+                            },
+                            set(v) {
+                                component_settings.set_string(key.name, v);
+                            }
+                        });
+                        break;
+
+                    case Type.C:
+                        Object.defineProperty(component, property_name, {
+                            // returns the array [red, blue, green, alpha] with
+                            // values between 0 and 1
+                            get() {
+                                let val = component_settings.get_value(key.name);
+                                return val.deep_unpack();
+                            },
+                            // takes an array [red, blue, green, alpha] with
+                            // values between 0 and 1
+                            set(v) {
+                                let val = new GLib.Variant("(dddd)", v);
+                                component_settings.set_value(key.name, val);
+                            }
+                        });
+                        break;
+
+                    case Type.AS:
+                        Object.defineProperty(component, property_name, {
+                            get() {
+                                let val = component_settings.get_value(key.name);
+                                return val.deep_unpack();
+                            },
+                            set(v) {
+                                let val = new GLib.Variant("as", v);
+                                component_settings.set_value(key.name, val);
+                            }
+                        });
+                        break;
+                }
+
+                component[property_name + '_reset'] = function () {
+                    return component_settings.reset(key.name);
+                };
+
+                component[property_name + '_changed'] = function (cb) {
+                    return component_settings.connect('changed::' + key.name, cb);
+                };
+
+                component[property_name + '_disconnect'] = function () {
+                    return component_settings.disconnect.apply(
+                        component_settings, arguments
+                    );
+                };
+            });
         });
+    };
+
+    /// Reset the preferences.
+    reset() {
+        this.keys.forEach(bundle => {
+            let component = this;
+            if (bundle.component !== "general") {
+                let bundle_component = bundle.component.replaceAll('-', '_');
+                component = this[bundle_component];
+            }
+
+            bundle.schemas.forEach(key => {
+                let property_name = this.get_property_name(key.name);
+                component[property_name + '_reset']();
+            });
+        });
+
+        this.emit('reset', true);
     }
 
     /// From the gschema name, returns the name of the associated property on
@@ -121,17 +164,22 @@ var Prefs = class Prefs {
         return name.replaceAll('-', '_').toUpperCase();
     }
 
-    /// From the gschema name, returns the associated property on the Prefs
-    /// object.
-    get_property(name) {
-        return this[this.get_property_name(name)];
-    }
-
     /// Remove all connections managed by the Prefs object, i.e. created with
-    /// `prefs.PROPERTY.changed(callback)`.
+    /// `prefs.PROPERTY_changed(callback)`.
     disconnect_all_settings() {
-        this.keys.forEach(key => {
-            this.get_property(key.name).disconnect();
+        this.keys.forEach(bundle => {
+            let component = this;
+            if (bundle.component !== "general") {
+                let bundle_component = bundle.component.replaceAll('-', '_');
+                component = this[bundle_component];
+            }
+
+            bundle.schemas.forEach(key => {
+                let property_name = this.get_property_name(key.name);
+                component[property_name + '_disconnect']();
+            });
         });
     }
 };
+
+Signals.addSignalMethods(Prefs.prototype);

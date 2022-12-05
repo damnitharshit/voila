@@ -5,3 +5,4 @@
 export EDITOR="nvim"
 export TERMINAL="kitty"
 export BROWSER="brave"
+export PATH="/home/harshit/.local/bin;$PATH"

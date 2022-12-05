@@ -4,10 +4,6 @@ const { Adw, GLib, GObject, Gio } = imports.gi;
 const ExtensionUtils = imports.misc.extensionUtils;
 
 const Me = ExtensionUtils.getCurrentExtension();
-const { Prefs } = Me.imports.conveniences.settings;
-const { Keys } = Me.imports.conveniences.keys;
-
-const Preferences = new Prefs(Keys);
 
 
 var Panel = GObject.registerClass({
@@ -16,23 +12,51 @@ var Panel = GObject.registerClass({
     InternalChildren: [
         'blur',
         'customize',
-        'sigma',
-        'brightness',
         'static_blur',
         'unblur_in_overview',
+        'override_background',
+        'style_panel',
+        'override_background_dynamically',
         'hidetopbar_compatibility'
     ],
 }, class Panel extends Adw.PreferencesPage {
-    constructor(props = {}) {
-        super(props);
+    constructor(preferences) {
+        super({});
 
-        Preferences.settings.bind('panel-blur', this._blur, 'state', Gio.SettingsBindFlags.DEFAULT);
-        Preferences.settings.bind('panel-customize', this._customize, 'enable-expansion', Gio.SettingsBindFlags.DEFAULT);
-        Preferences.settings.bind('panel-sigma', this._sigma, 'value', Gio.SettingsBindFlags.DEFAULT);
-        Preferences.settings.bind('panel-brightness', this._brightness, 'value', Gio.SettingsBindFlags.DEFAULT);
-        Preferences.settings.bind('panel-static-blur', this._static_blur, 'state', Gio.SettingsBindFlags.DEFAULT);
-        Preferences.settings.bind('panel-unblur-in-overview', this._unblur_in_overview, 'state', Gio.SettingsBindFlags.DEFAULT);
+        this.preferences = preferences;
 
-        Preferences.settings.bind('hidetopbar-compatibility', this._hidetopbar_compatibility, 'state', Gio.SettingsBindFlags.DEFAULT);
+        this.preferences.panel.settings.bind(
+            'blur', this._blur, 'state',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+        this.preferences.panel.settings.bind(
+            'static-blur', this._static_blur, 'state',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+        this.preferences.panel.settings.bind(
+            'unblur-in-overview', this._unblur_in_overview, 'state',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+        this.preferences.panel.settings.bind(
+            'override-background',
+            this._override_background, 'enable-expansion',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+        this.preferences.panel.settings.bind(
+            'style-panel', this._style_panel, 'selected',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+        this.preferences.panel.settings.bind(
+            'override-background-dynamically',
+            this._override_background_dynamically, 'state',
+            Gio.SettingsBindFlags.DEFAULT
+        );
+
+        this._customize.connect_to(this.preferences.panel, this._static_blur);
+
+        this.preferences.hidetopbar.settings.bind(
+            'compatibility', this._hidetopbar_compatibility, 'state',
+            Gio.SettingsBindFlags.DEFAULT
+        );
     }
 });

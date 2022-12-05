@@ -7,9 +7,9 @@ const Me = ExtensionUtils.getCurrentExtension();
 const { Prefs } = Me.imports.conveniences.settings;
 const { Keys } = Me.imports.conveniences.keys;
 
-const Preferences = new Prefs(Keys);
-
 const { addMenu } = Me.imports.preferences.menu;
+const { CustomizeRow } = Me.imports.preferences.customize_row;
+const { WindowRow } = Me.imports.preferences.window_row;
 const { General } = Me.imports.preferences.general;
 const { Panel } = Me.imports.preferences.panel;
 const { Overview } = Me.imports.preferences.overview;
@@ -30,13 +30,14 @@ function init() {
 function fillPreferencesWindow(window) {
     addMenu(window);
 
-    window.add(new General);
-    window.add(new Panel);
-    window.add(new Overview);
-    window.add(new Dash);
-    window.add(new Applications);
-    window.add(new Other);
+    const preferences = new Prefs(Keys);
+
+    window.add(new General(preferences));
+    window.add(new Panel(preferences));
+    window.add(new Overview(preferences));
+    window.add(new Dash(preferences));
+    window.add(new Applications(preferences, window));
+    window.add(new Other(preferences));
 
     window.search_enabled = true;
-    window.set_default_size(680, 450);
 }

@@ -1,0 +1,1108 @@
+[ar/com/softwareperonista/pace]
+enable-preview=true
+full-preview=true
+
+[com/github/wwmm/easyeffects]
+last-used-input-preset='Presets'
+last-used-output-preset='Presets'
+window-fullscreen=false
+window-height=429
+window-maximized=true
+window-width=710
+
+[com/github/wwmm/easyeffects/streaminputs]
+input-device='alsa_input.pci-0000_00_1b.0.analog-stereo'
+
+[com/github/wwmm/easyeffects/streamoutputs]
+output-device='alsa_output.pci-0000_00_1b.0.analog-stereo'
+plugins=@as []
+
+[com/github/wwmm/easyeffects/streamoutputs/compressor]
+mode='Downward'
+
+[com/github/wwmm/easyeffects/streamoutputs/equalizer]
+bypass=true
+
+[com/github/wwmm/easyeffects/streamoutputs/filter]
+bypass=true
+mode='12dB/oct Lowpass'
+
+[com/github/wwmm/easyeffects/streamoutputs/limiter]
+bypass=true
+sidechain-input-device='alsa_input.pci-0000_00_1b.0.analog-stereo'
+
+[com/github/wwmm/easyeffects/streamoutputs/loudness]
+bypass=true
+volume=6.3837823915946501e-16
+
+[com/github/wwmm/easyeffects/streamoutputs/maximizer]
+bypass=true
+
+[com/github/wwmm/easyeffects/streamoutputs/stereotools]
+mpan=-7.4593109467002705e-16
+mutel=false
+muter=false
+
+[com/github/wwmm/pulseeffects]
+last-used-input-preset='Presets'
+last-used-output-preset='Presets'
+use-dark-theme=true
+window-height=690
+window-width=1360
+
+[com/github/wwmm/pulseeffects/sinkinputs]
+plugins=['limiter', 'autogain', 'gate', 'multiband_gate', 'compressor', 'multiband_compressor', 'convolver', 'bass_enhancer', 'exciter', 'crystalizer', 'stereo_tools', 'reverb', 'equalizer', 'delay', 'deesser', 'crossfeed', 'loudness', 'maximizer', 'filter', 'pitch', 'rnnoise']
+
+[com/github/wwmm/pulseeffects/sinkinputs/autogain]
+installed=true
+post-messages=false
+state=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/bassenhancer]
+installed=false
+post-messages=false
+state=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/compressor]
+installed=false
+post-messages=false
+state=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/convolver]
+installed=true
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/crossfeed]
+installed=true
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/crystalizer]
+installed=true
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/deesser]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/delay]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/equalizer]
+installed=false
+post-messages=false
+state=true
+
+[com/github/wwmm/pulseeffects/sinkinputs/equalizer/rightchannel]
+band0-frequency=22.59
+band0-mode='RLC (BT)'
+band0-q=4.3600000000000003
+band0-slope='x1'
+band0-type='Bell'
+band1-frequency=28.440000000000001
+band1-mode='RLC (BT)'
+band1-q=4.3600000000000003
+band1-slope='x1'
+band1-type='Bell'
+band10-frequency=225.88999999999999
+band10-mode='RLC (BT)'
+band10-q=4.3600000000000003
+band10-slope='x1'
+band10-type='Bell'
+band11-frequency=284.38
+band11-mode='RLC (BT)'
+band11-q=4.3600000000000003
+band11-slope='x1'
+band11-type='Bell'
+band12-frequency=358.01999999999998
+band12-mode='RLC (BT)'
+band12-q=4.3600000000000003
+band12-slope='x1'
+band12-type='Bell'
+band13-frequency=450.72000000000003
+band13-mode='RLC (BT)'
+band13-q=4.3600000000000003
+band13-slope='x1'
+band13-type='Bell'
+band14-frequency=567.41999999999996
+band14-mode='RLC (BT)'
+band14-q=4.3600000000000003
+band14-slope='x1'
+band14-type='Bell'
+band15-frequency=714.34000000000003
+band15-mode='RLC (BT)'
+band15-q=4.3600000000000003
+band15-slope='x1'
+band15-type='Bell'
+band16-frequency=899.28999999999996
+band16-mode='RLC (BT)'
+band16-q=4.3600000000000003
+band16-slope='x1'
+band16-type='Bell'
+band17-frequency=1132.1500000000001
+band17-mode='RLC (BT)'
+band17-q=4.3600000000000003
+band17-slope='x1'
+band17-type='Bell'
+band18-frequency=1425.29
+band18-mode='RLC (BT)'
+band18-q=4.3600000000000003
+band18-slope='x1'
+band18-type='Bell'
+band19-frequency=1794.3299999999999
+band19-mode='RLC (BT)'
+band19-q=4.3600000000000003
+band19-slope='x1'
+band19-type='Bell'
+band2-frequency=35.799999999999997
+band2-mode='RLC (BT)'
+band2-q=4.3600000000000003
+band2-slope='x1'
+band2-type='Bell'
+band20-frequency=2258.9299999999998
+band20-mode='RLC (BT)'
+band20-q=4.3600000000000003
+band20-slope='x1'
+band20-type='Bell'
+band21-frequency=2843.8200000000002
+band21-mode='RLC (BT)'
+band21-q=4.3600000000000003
+band21-slope='x1'
+band21-type='Bell'
+band22-frequency=3580.1599999999999
+band22-mode='RLC (BT)'
+band22-q=4.3600000000000003
+band22-slope='x1'
+band22-type='Bell'
+band23-frequency=4507.1499999999996
+band23-mode='RLC (BT)'
+band23-q=4.3600000000000003
+band23-slope='x1'
+band23-type='Bell'
+band24-frequency=5674.1599999999999
+band24-mode='RLC (BT)'
+band24-q=4.3600000000000003
+band24-slope='x1'
+band24-type='Bell'
+band25-frequency=7143.3500000000004
+band25-mode='RLC (BT)'
+band25-q=4.3600000000000003
+band25-slope='x1'
+band25-type='Bell'
+band26-frequency=8992.9400000000005
+band26-mode='RLC (BT)'
+band26-q=4.3600000000000003
+band26-slope='x1'
+band26-type='Bell'
+band27-frequency=11321.450000000001
+band27-mode='RLC (BT)'
+band27-q=4.3600000000000003
+band27-slope='x1'
+band27-type='Bell'
+band28-frequency=14252.860000000001
+band28-mode='RLC (BT)'
+band28-q=4.3600000000000003
+band28-slope='x1'
+band28-type='Bell'
+band29-frequency=17943.279999999999
+band29-mode='RLC (BT)'
+band29-q=4.3600000000000003
+band29-slope='x1'
+band29-type='Bell'
+band3-frequency=45.07
+band3-mode='RLC (BT)'
+band3-q=4.3600000000000003
+band3-slope='x1'
+band3-type='Bell'
+band4-frequency=56.740000000000002
+band4-mode='RLC (BT)'
+band4-q=4.3600000000000003
+band4-slope='x1'
+band4-type='Bell'
+band5-frequency=71.430000000000007
+band5-mode='RLC (BT)'
+band5-q=4.3600000000000003
+band5-slope='x1'
+band5-type='Bell'
+band6-frequency=89.930000000000007
+band6-mode='RLC (BT)'
+band6-q=4.3600000000000003
+band6-slope='x1'
+band6-type='Bell'
+band7-frequency=113.20999999999999
+band7-mode='RLC (BT)'
+band7-q=4.3600000000000003
+band7-slope='x1'
+band7-type='Bell'
+band8-frequency=142.53
+band8-mode='RLC (BT)'
+band8-q=4.3600000000000003
+band8-slope='x1'
+band8-type='Bell'
+band9-frequency=179.43000000000001
+band9-mode='RLC (BT)'
+band9-q=4.3600000000000003
+band9-slope='x1'
+band9-type='Bell'
+
+[com/github/wwmm/pulseeffects/sinkinputs/exciter]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/filter]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/gate]
+installed=false
+post-messages=false
+state=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/limiter]
+installed=false
+post-messages=false
+state=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/loudness]
+installed=false
+post-messages=false
+state=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/maximizer]
+installed=false
+post-messages=false
+state=true
+
+[com/github/wwmm/pulseeffects/sinkinputs/multibandcompressor]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/multibandgate]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/pitch]
+installed=true
+post-messages=false
+state=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/reverb]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/rnnoise]
+installed=true
+model-path='Standard RNNoise Model'
+post-messages=false
+state=false
+
+[com/github/wwmm/pulseeffects/sinkinputs/stereotools]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/compressor]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/deesser]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/equalizer]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/equalizer/rightchannel]
+band0-frequency=22.59
+band0-mode='RLC (BT)'
+band0-q=4.3600000000000003
+band0-slope='x1'
+band0-type='Bell'
+band1-frequency=28.440000000000001
+band1-mode='RLC (BT)'
+band1-q=4.3600000000000003
+band1-slope='x1'
+band1-type='Bell'
+band10-frequency=225.88999999999999
+band10-mode='RLC (BT)'
+band10-q=4.3600000000000003
+band10-slope='x1'
+band10-type='Bell'
+band11-frequency=284.38
+band11-mode='RLC (BT)'
+band11-q=4.3600000000000003
+band11-slope='x1'
+band11-type='Bell'
+band12-frequency=358.01999999999998
+band12-mode='RLC (BT)'
+band12-q=4.3600000000000003
+band12-slope='x1'
+band12-type='Bell'
+band13-frequency=450.72000000000003
+band13-mode='RLC (BT)'
+band13-q=4.3600000000000003
+band13-slope='x1'
+band13-type='Bell'
+band14-frequency=567.41999999999996
+band14-mode='RLC (BT)'
+band14-q=4.3600000000000003
+band14-slope='x1'
+band14-type='Bell'
+band15-frequency=714.34000000000003
+band15-mode='RLC (BT)'
+band15-q=4.3600000000000003
+band15-slope='x1'
+band15-type='Bell'
+band16-frequency=899.28999999999996
+band16-mode='RLC (BT)'
+band16-q=4.3600000000000003
+band16-slope='x1'
+band16-type='Bell'
+band17-frequency=1132.1500000000001
+band17-mode='RLC (BT)'
+band17-q=4.3600000000000003
+band17-slope='x1'
+band17-type='Bell'
+band18-frequency=1425.29
+band18-mode='RLC (BT)'
+band18-q=4.3600000000000003
+band18-slope='x1'
+band18-type='Bell'
+band19-frequency=1794.3299999999999
+band19-mode='RLC (BT)'
+band19-q=4.3600000000000003
+band19-slope='x1'
+band19-type='Bell'
+band2-frequency=35.799999999999997
+band2-mode='RLC (BT)'
+band2-q=4.3600000000000003
+band2-slope='x1'
+band2-type='Bell'
+band20-frequency=2258.9299999999998
+band20-mode='RLC (BT)'
+band20-q=4.3600000000000003
+band20-slope='x1'
+band20-type='Bell'
+band21-frequency=2843.8200000000002
+band21-mode='RLC (BT)'
+band21-q=4.3600000000000003
+band21-slope='x1'
+band21-type='Bell'
+band22-frequency=3580.1599999999999
+band22-mode='RLC (BT)'
+band22-q=4.3600000000000003
+band22-slope='x1'
+band22-type='Bell'
+band23-frequency=4507.1499999999996
+band23-mode='RLC (BT)'
+band23-q=4.3600000000000003
+band23-slope='x1'
+band23-type='Bell'
+band24-frequency=5674.1599999999999
+band24-mode='RLC (BT)'
+band24-q=4.3600000000000003
+band24-slope='x1'
+band24-type='Bell'
+band25-frequency=7143.3500000000004
+band25-mode='RLC (BT)'
+band25-q=4.3600000000000003
+band25-slope='x1'
+band25-type='Bell'
+band26-frequency=8992.9400000000005
+band26-mode='RLC (BT)'
+band26-q=4.3600000000000003
+band26-slope='x1'
+band26-type='Bell'
+band27-frequency=11321.450000000001
+band27-mode='RLC (BT)'
+band27-q=4.3600000000000003
+band27-slope='x1'
+band27-type='Bell'
+band28-frequency=14252.860000000001
+band28-mode='RLC (BT)'
+band28-q=4.3600000000000003
+band28-slope='x1'
+band28-type='Bell'
+band29-frequency=17943.279999999999
+band29-mode='RLC (BT)'
+band29-q=4.3600000000000003
+band29-slope='x1'
+band29-type='Bell'
+band3-frequency=45.07
+band3-mode='RLC (BT)'
+band3-q=4.3600000000000003
+band3-slope='x1'
+band3-type='Bell'
+band4-frequency=56.740000000000002
+band4-mode='RLC (BT)'
+band4-q=4.3600000000000003
+band4-slope='x1'
+band4-type='Bell'
+band5-frequency=71.430000000000007
+band5-mode='RLC (BT)'
+band5-q=4.3600000000000003
+band5-slope='x1'
+band5-type='Bell'
+band6-frequency=89.930000000000007
+band6-mode='RLC (BT)'
+band6-q=4.3600000000000003
+band6-slope='x1'
+band6-type='Bell'
+band7-frequency=113.20999999999999
+band7-mode='RLC (BT)'
+band7-q=4.3600000000000003
+band7-slope='x1'
+band7-type='Bell'
+band8-frequency=142.53
+band8-mode='RLC (BT)'
+band8-q=4.3600000000000003
+band8-slope='x1'
+band8-type='Bell'
+band9-frequency=179.43000000000001
+band9-mode='RLC (BT)'
+band9-q=4.3600000000000003
+band9-slope='x1'
+band9-type='Bell'
+
+[com/github/wwmm/pulseeffects/sourceoutputs/filter]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/gate]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/limiter]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/maximizer]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/multibandcompressor]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/multibandgate]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/pitch]
+installed=true
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/reverb]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/rnnoise]
+installed=true
+model-path='Standard RNNoise Model'
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/stereotools]
+installed=false
+post-messages=false
+
+[com/github/wwmm/pulseeffects/sourceoutputs/webrtc]
+installed=true
+post-messages=false
+
+[com/github/wwmm/pulseeffects/spectrum]
+line-width=4.9999999999999982
+
+[io/bassi/Amberol]
+window-height=613
+window-width=949
+
+[org/blueman/general]
+window-properties=[618, 350, 318, 203]
+
+[org/blueman/plugins/powermanager]
+auto-power-on=@mb true
+
+[org/blueman/plugins/recentconns]
+recent-connections=[{'adapter': 'E8:48:B8:C8:20:00', 'address': '00:17:56:23:55:2A', 'alias': 'BS 45BT ', 'icon': 'audio-headset', 'name': 'Audio and input profiles', 'uuid': '00000000-0000-0000-0000-000000000000', 'time': '1657026007.1090932'}, {'adapter': 'E8:48:B8:C8:20:00', 'address': 'F4:73:35:11:8A:9D', 'alias': 'Keyboard K380', 'icon': 'input-keyboard', 'name': 'Audio and input profiles', 'uuid': '00000000-0000-0000-0000-000000000000', 'time': '1657026010.4535186'}]
+
+[org/gnome/calculator]
+accuracy=9
+angle-units='degrees'
+base=10
+button-mode='basic'
+number-format='automatic'
+show-thousands=false
+show-zeroes=false
+source-currency=''
+source-units='degree'
+target-currency=''
+target-units='radian'
+word-size=64
+
+[org/gnome/control-center]
+last-panel='background'
+window-state=(1262, 740, true)
+
+[org/gnome/desktop/a11y]
+always-show-universal-access-status=false
+
+[org/gnome/desktop/a11y/applications]
+screen-magnifier-enabled=false
+
+[org/gnome/desktop/a11y/interface]
+high-contrast=false
+
+[org/gnome/desktop/a11y/magnifier]
+lens-mode=true
+mouse-tracking='proportional'
+
+[org/gnome/desktop/app-folders]
+folder-children=['Utilities', 'YaST', '39ffc0f8-d5bd-49be-943e-04cd7fd3be89', '29012fa9-f4e9-4deb-a9a1-b6ec6c7d8066']
+
+[org/gnome/desktop/app-folders/folders/29012fa9-f4e9-4deb-a9a1-b6ec6c7d8066]
+apps=['org.kde.kdeconnect.nonplasma.desktop', 'org.kde.kdeconnect.app.desktop', 'org.kde.kdeconnect-settings.desktop', 'org.kde.kdeconnect.sms.desktop']
+name='KDE Connect'
+translate=false
+
+[org/gnome/desktop/app-folders/folders/39ffc0f8-d5bd-49be-943e-04cd7fd3be89]
+apps=['org.manjaro.pamac.manager.desktop', 'org.gnome.Geary.desktop', 'bssh.desktop', 'bvnc.desktop', 'avahi-discover.desktop', 'btrfs-assistant.desktop', 'garuda-network-assistant.desktop', 'garuda-gamer.desktop', 'garuda-settings-manager.desktop', 'garuda-system-maintenance-settings.desktop', 'org.gnome.Firmware.desktop', 'fish.desktop', 'org.gnome.gedit.desktop', 'gnome-system-monitor.desktop', 'firedragon.desktop', 'garuda-welcome.desktop', 'garuda-boot-options.desktop', 'com.gitlab.cunidev.Gestures.desktop', 'htop.desktop', 'ar.com.softwareperonista.Pace.desktop', 'qv4l2.desktop', 'qvidcap.desktop', 'reboot-to-uefi.desktop', 'reflector-simple.desktop', 'snapper-tools.desktop', 'stoken-gui.desktop', 'stoken-gui-small.desktop', 'suspend-then-hibernate.desktop', 'vim.desktop', 'wihotspot.desktop', 'org.gnome.Terminal.desktop', 'garuda-assistant.desktop']
+name='Pre-installed'
+translate=false
+
+[org/gnome/desktop/app-folders/folders/Utilities]
+apps=['gnome-abrt.desktop', 'gnome-system-log.desktop', 'nm-connection-editor.desktop', 'org.gnome.baobab.desktop', 'org.gnome.Connections.desktop', 'org.gnome.DejaDup.desktop', 'org.gnome.Dictionary.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.eog.desktop', 'org.gnome.Evince.desktop', 'org.gnome.FileRoller.desktop', 'org.gnome.fonts.desktop', 'org.gnome.seahorse.Application.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.Usage.desktop', 'vinagre.desktop', 'discord.desktop', 'ffado-mixer.desktop', 'electron18.desktop', 'xdvi.desktop']
+categories=['X-GNOME-Utilities']
+name='X-GNOME-Utilities.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/YaST]
+categories=['X-SuSE-YaST']
+name='suse-yast.directory'
+translate=true
+
+[org/gnome/desktop/background]
+color-shading-type='solid'
+picture-options='zoom'
+picture-uri='file:///home/harshit/.local/share/backgrounds/2022-11-30-18-51-24-c.jpg'
+picture-uri-dark='file:///home/harshit/.local/share/backgrounds/2022-11-30-18-51-24-c.jpg'
+primary-color='#000000000000'
+secondary-color='#000000000000'
+show-desktop-icons=false
+
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'us')]
+xkb-options=@as []
+
+[org/gnome/desktop/interface]
+clock-show-date=true
+clock-show-weekday=true
+color-scheme='prefer-dark'
+cursor-size=24
+cursor-theme='WhiteSur-cursors'
+document-font-name='Iosevka Semi-Bold 11'
+enable-animations=true
+font-antialiasing='rgba'
+font-hinting='full'
+font-name='Iosevka Semi-Bold 11'
+gtk-theme='Catppuccin-Mocha-BL'
+icon-theme='Papirus'
+monospace-font-name='Cascadia Code PL 11'
+show-battery-percentage=true
+text-scaling-factor=1.0
+toolkit-accessibility=false
+
+[org/gnome/desktop/notifications]
+application-children=['garuda-assistant', 'org-gnome-nautilus', 'org-gnome-fileroller', 'org-gnome-extensions-desktop', 'org-gnome-settings', 'gnome-network-panel', 'gnome-power-panel', 'garuda-welcome', 'discord', 'brave-browser', 'visual-studio-code', 'zoom', 'org-gnome-chromegnomeshell', 'com-obsproject-studio', 'deluge', 'anki', 'obsidian', 'firefox', 'youtube-music', 'notion-app', 'kitty', 'tor-browser', 'pcmanfm', 'gimp', 'org-gnome-shell-extensions-gsconnect', 'org-kde-kdeconnect-daemon']
+
+[org/gnome/desktop/notifications/application/anki]
+application-id='anki.desktop'
+
+[org/gnome/desktop/notifications/application/brave-browser]
+application-id='brave-browser.desktop'
+
+[org/gnome/desktop/notifications/application/com-obsproject-studio]
+application-id='com.obsproject.Studio.desktop'
+
+[org/gnome/desktop/notifications/application/deluge]
+application-id='deluge.desktop'
+
+[org/gnome/desktop/notifications/application/discord]
+application-id='discord.desktop'
+
+[org/gnome/desktop/notifications/application/firefox]
+application-id='firefox.desktop'
+
+[org/gnome/desktop/notifications/application/garuda-assistant]
+application-id='garuda-assistant.desktop'
+
+[org/gnome/desktop/notifications/application/garuda-welcome]
+application-id='garuda-welcome.desktop'
+
+[org/gnome/desktop/notifications/application/gimp]
+application-id='gimp.desktop'
+
+[org/gnome/desktop/notifications/application/gnome-network-panel]
+application-id='gnome-network-panel.desktop'
+
+[org/gnome/desktop/notifications/application/gnome-power-panel]
+application-id='gnome-power-panel.desktop'
+
+[org/gnome/desktop/notifications/application/kitty]
+application-id='kitty.desktop'
+
+[org/gnome/desktop/notifications/application/notion-app]
+application-id='notion-app.desktop'
+
+[org/gnome/desktop/notifications/application/obsidian]
+application-id='obsidian.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-chromegnomeshell]
+application-id='org.gnome.ChromeGnomeShell.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-extensions-desktop]
+application-id='org.gnome.Extensions.desktop.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-fileroller]
+application-id='org.gnome.FileRoller.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-nautilus]
+application-id='org.gnome.Nautilus.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-settings]
+application-id='org.gnome.Settings.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-shell-extensions-gsconnect]
+application-id='org.gnome.Shell.Extensions.GSConnect.desktop'
+
+[org/gnome/desktop/notifications/application/org-kde-kdeconnect-daemon]
+application-id='org.kde.kdeconnect.daemon.desktop'
+
+[org/gnome/desktop/notifications/application/pcmanfm]
+application-id='pcmanfm.desktop'
+
+[org/gnome/desktop/notifications/application/tor-browser]
+application-id='tor-browser.desktop'
+
+[org/gnome/desktop/notifications/application/visual-studio-code]
+application-id='visual-studio-code.desktop'
+
+[org/gnome/desktop/notifications/application/youtube-music]
+application-id='youtube-music.desktop'
+
+[org/gnome/desktop/notifications/application/zoom]
+application-id='Zoom.desktop'
+
+[org/gnome/desktop/peripherals/keyboard]
+numlock-state=false
+
+[org/gnome/desktop/peripherals/mouse]
+natural-scroll=false
+speed=-0.92914979757085026
+
+[org/gnome/desktop/peripherals/touchpad]
+edge-scrolling-enabled=false
+natural-scroll=true
+speed=0.12264150943396235
+tap-and-drag=true
+tap-to-click=true
+two-finger-scrolling-enabled=true
+
+[org/gnome/desktop/privacy]
+old-files-age=uint32 7
+recent-files-max-age=7
+remove-old-temp-files=true
+remove-old-trash-files=true
+
+[org/gnome/desktop/remote-desktop/rdp]
+enable=false
+tls-cert='/home/harshit/.local/share/gnome-remote-desktop/rdp-tls.crt'
+tls-key='/home/harshit/.local/share/gnome-remote-desktop/rdp-tls.key'
+view-only=true
+
+[org/gnome/desktop/screensaver]
+color-shading-type='solid'
+lock-delay=uint32 0
+picture-options='zoom'
+picture-uri='file:///home/harshit/.local/share/backgrounds/2022-11-30-18-51-24-c.jpg'
+primary-color='#000000000000'
+secondary-color='#000000000000'
+
+[org/gnome/desktop/search-providers]
+sort-order=['org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop', 'org.gnome.Nautilus.desktop']
+
+[org/gnome/desktop/session]
+idle-delay=uint32 0
+
+[org/gnome/desktop/sound]
+allow-volume-above-100-percent=false
+event-sounds=true
+theme-name='__custom'
+
+[org/gnome/desktop/wm/keybindings]
+activate-window-menu=@as []
+begin-move=@as []
+begin-resize=@as []
+close=['<Super>q']
+cycle-group=@as []
+cycle-group-backward=@as []
+cycle-panels=@as []
+cycle-panels-backward=@as []
+cycle-windows=@as []
+cycle-windows-backward=@as []
+lower=@as []
+maximize=@as []
+maximize-horizontally=@as []
+minimize=['<Super>Down']
+move-to-monitor-down=@as []
+move-to-monitor-left=['<Alt><Super>Left']
+move-to-monitor-right=['<Alt><Super>Right']
+move-to-monitor-up=@as []
+move-to-workspace-1=@as []
+move-to-workspace-last=@as []
+move-to-workspace-left=['<Shift><Super>Left']
+move-to-workspace-right=['<Shift><Super>Right']
+panel-run-dialog=@as []
+raise=@as []
+switch-applications=@as []
+switch-applications-backward=@as []
+switch-group=@as []
+switch-group-backward=@as []
+switch-input-source=@as []
+switch-input-source-backward=@as []
+switch-panels=@as []
+switch-panels-backward=@as []
+switch-to-workspace-1=@as []
+switch-to-workspace-last=@as []
+switch-to-workspace-left=['<Super>Left']
+switch-to-workspace-right=['<Super>Right']
+switch-windows=['<Alt>Tab']
+switch-windows-backward=['<Shift><Alt>Tab']
+toggle-maximized=['<Super>Up']
+unmaximize=@as []
+
+[org/gnome/desktop/wm/preferences]
+button-layout='appmenu:minimize,maximize,close'
+num-workspaces=6
+titlebar-font='Iosevka Semi-Bold 12'
+workspace-names=['一', '二', '三', '四', '五', '六']
+
+[org/gnome/eog/ui]
+sidebar=true
+
+[org/gnome/eog/view]
+background-color='rgb(0,0,0)'
+use-background-color=true
+
+[org/gnome/evince/default]
+continuous=true
+dual-page=false
+dual-page-odd-left=false
+enable-spellchecking=true
+fullscreen=false
+inverted-colors=false
+show-sidebar=true
+sidebar-page='thumbnails'
+sidebar-size=150
+sizing-mode='free'
+window-ratio=(0.91666666666666663, 0.29419191919191917)
+zoom=1.4399999999999997
+
+[org/gnome/evolution-data-server]
+migrated=true
+network-monitor-gio-name=''
+
+[org/gnome/file-roller/dialogs/extract]
+recreate-folders=true
+skip-newer=false
+
+[org/gnome/file-roller/listing]
+list-mode='as-folder'
+name-column-width=250
+show-path=false
+sort-method='name'
+sort-type='ascending'
+
+[org/gnome/file-roller/ui]
+sidebar-width=200
+window-height=480
+window-width=600
+
+[org/gnome/gedit/plugins]
+active-plugins=['time', 'spell', 'sort', 'modelines', 'filebrowser', 'docinfo', 'codecomment', 'bracketcompletion']
+
+[org/gnome/gedit/plugins/filebrowser]
+root='file:///'
+tree-view=true
+virtual-root='file:///home/harshit'
+
+[org/gnome/gedit/preferences/editor]
+auto-indent=true
+bracket-matching=true
+display-line-numbers=true
+editor-font='FantasqueSansMono Nerd Font Mono 12'
+scheme='oblivion'
+tabs-size=4
+use-default-font=false
+wrap-last-split-mode='word'
+
+[org/gnome/gedit/preferences/ui]
+show-tabs-mode='auto'
+
+[org/gnome/gedit/state/window]
+bottom-panel-size=140
+side-panel-active-page='GeditWindowDocumentsPanel'
+side-panel-size=200
+size=(900, 688)
+state=87168
+
+[org/gnome/mutter]
+blur-sigmal=0
+blur-window-opacity=74
+border-width=0
+dynamic-workspaces=false
+overlay-key='Super_L'
+round-corners-radius=10
+rounded-in-maximized=false
+workspaces-only-on-primary=true
+
+[org/gnome/mutter/keybindings]
+toggle-tiled-left=@as []
+toggle-tiled-right=@as []
+
+[org/gnome/mutter/wayland/keybindings]
+restore-shortcuts=@as []
+
+[org/gnome/nautilus/icon-view]
+default-zoom-level='medium'
+
+[org/gnome/nautilus/preferences]
+default-folder-viewer='icon-view'
+migrated-gtk-settings=true
+search-filter-time-type='last_modified'
+search-view='list-view'
+show-create-link=true
+
+[org/gnome/nautilus/window-state]
+initial-size=(985, 594)
+maximized=true
+sidebar-width=214
+
+[org/gnome/settings-daemon/plugins/color]
+night-light-enabled=false
+
+[org/gnome/settings-daemon/plugins/media-keys]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom7/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom8/']
+help=@as []
+logout=@as []
+magnifier=@as []
+magnifier-zoom-in=@as []
+magnifier-zoom-out=@as []
+screenreader=@as []
+screensaver=@as []
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+binding='<Super>b'
+command='brave'
+name='brave'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1]
+binding='<Super>Return'
+command='kitty'
+name='kitty'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2]
+binding='<Super>v'
+command='code'
+name='code'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3]
+binding='<Super>d'
+command='discord'
+name='discord'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4]
+binding='<Super>f'
+command='pcmanfm'
+name='pcmanfm'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5]
+binding='<Super>s'
+command='gnome-control-center'
+name='settings'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6]
+binding='<Super>m'
+command='spotify'
+name='spotify'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom7]
+binding='<Super>n'
+command='notion-app'
+name='notion'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom8]
+binding='<Super>o'
+command='gtk-launch obsidian '
+name='obsidian'
+
+[org/gnome/settings-daemon/plugins/power]
+idle-dim=false
+power-button-action='suspend'
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-type='nothing'
+
+[org/gnome/shell]
+app-picker-layout=[{'39ffc0f8-d5bd-49be-943e-04cd7fd3be89': <{'position': <0>}>, 'Utilities': <{'position': <1>}>, '29012fa9-f4e9-4deb-a9a1-b6ec6c7d8066': <{'position': <2>}>, 'org.gnome.Extensions.desktop': <{'position': <3>}>, 'org.gnome.Calculator.desktop': <{'position': <4>}>, 'mpv.desktop': <{'position': <5>}>, 'nvim.desktop': <{'position': <6>}>, 'org.pwmt.zathura.desktop': <{'position': <7>}>, 'vlc.desktop': <{'position': <8>}>, 'Zoom.desktop': <{'position': <9>}>, 'deluge.desktop': <{'position': <10>}>, 'github-desktop.desktop': <{'position': <11>}>, 'gimp.desktop': <{'position': <12>}>, 'org.inkscape.Inkscape.desktop': <{'position': <13>}>, 'com.obsproject.Studio.desktop': <{'position': <14>}>, 'io.bassi.Amberol.desktop': <{'position': <15>}>, 'firefox.desktop': <{'position': <16>}>, 'deskreen.desktop': <{'position': <17>}>, 'tor-browser.desktop': <{'position': <18>}>, 'org.gnome.Nautilus.desktop': <{'position': <19>}>, 'code.desktop': <{'position': <20>}>}]
+disable-extension-version-validation=true
+disable-user-extensions=false
+disabled-extensions=['hanabi-extension@jeffshee.github.io', 'workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'simply.workspaces@andyrichardson.dev']
+enabled-extensions=['just-perfection-desktop@just-perfection', 'bluetooth-quick-connect@bjarosze.gmail.com', 'sound-output-device-chooser@kgshank.net', 'blur-my-shell@aunetx', 'dash-to-panel@jderose9.github.com', 'impatience@gfxmonk.net', 'pickawindow@lluo.gitlab.com', 'workspaces-bar@fthx', 'gsconnect@andyholmes.github.io', 'rounded-window-corners@yilozt']
+favorite-apps=['brave-browser.desktop', 'obsidian.desktop', 'anki.desktop', 'kitty.desktop', 'pcmanfm.desktop', 'notion-app-enhanced.desktop', 'youtube-music.desktop', 'spotify.desktop', 'org.gnome.Settings.desktop']
+had-bluetooth-devices-setup=true
+last-selected-power-profile='performance'
+welcome-dialog-last-shown-version='42.2'
+
+[org/gnome/shell/extensions/blur-my-shell/applications]
+brightness=1.0
+customize=true
+enable-all=false
+opacity=255
+sigma=15
+whitelist=['kitty']
+
+[org/gnome/shell/extensions/dash-to-panel]
+animate-appicon-hover-animation-extent={'RIPPLE': 4, 'PLANK': 4, 'SIMPLE': 1}
+appicon-margin=8
+appicon-padding=4
+available-monitors=[0, 1]
+hotkeys-overlay-combo='TEMPORARILY'
+leftbox-padding=-1
+leftbox-size=15
+multi-monitors=false
+panel-anchors='{"0":"MIDDLE","1":"MIDDLE"}'
+panel-element-positions='{"0":[{"element":"showAppsButton","visible":false,"position":"stackedTL"},{"element":"activitiesButton","visible":false,"position":"stackedTL"},{"element":"leftBox","visible":true,"position":"stackedTL"},{"element":"taskbar","visible":false,"position":"stackedTL"},{"element":"centerBox","visible":false,"position":"centerMonitor"},{"element":"rightBox","visible":false,"position":"stackedBR"},{"element":"dateMenu","visible":true,"position":"centerMonitor"},{"element":"systemMenu","visible":true,"position":"stackedBR"},{"element":"desktopButton","visible":false,"position":"stackedBR"}],"1":[{"element":"showAppsButton","visible":false,"position":"stackedTL"},{"element":"activitiesButton","visible":false,"position":"stackedTL"},{"element":"leftBox","visible":true,"position":"stackedTL"},{"element":"taskbar","visible":false,"position":"stackedTL"},{"element":"centerBox","visible":false,"position":"centerMonitor"},{"element":"rightBox","visible":false,"position":"stackedBR"},{"element":"dateMenu","visible":true,"position":"centerMonitor"},{"element":"systemMenu","visible":true,"position":"stackedBR"},{"element":"desktopButton","visible":false,"position":"stackedBR"}]}'
+panel-element-positions-monitors-sync=true
+panel-lengths='{"0":100,"1":100}'
+panel-sizes='{"0":28,"1":28}'
+primary-monitor=0
+status-icon-padding=-1
+stockgs-keep-dash=true
+trans-panel-opacity=0.0
+trans-use-custom-opacity=true
+trans-use-dynamic-opacity=false
+tray-padding=-1
+tray-size=15
+window-preview-title-position='TOP'
+
+[org/gnome/shell/extensions/gsconnect]
+devices=['fd0a9c0fd3e4529b']
+id='1e4e691e-79fe-4635-87ab-d62ec74e3c23'
+name='harshit-laptop'
+
+[org/gnome/shell/extensions/gsconnect/device/fd0a9c0fd3e4529b]
+certificate-pem='-----BEGIN CERTIFICATE-----\nMIIC9zCCAd+gAwIBAgIBATANBgkqhkiG9w0BAQsFADA/MRkwFwYDVQQDDBBmZDBh\nOWMwZmQzZTQ1MjliMRQwEgYDVQQLDAtLREUgQ29ubmVjdDEMMAoGA1UECgwDS0RF\nMB4XDTIxMTIwMjE4MzAwMFoXDTMxMTIwMjE4MzAwMFowPzEZMBcGA1UEAwwQZmQw\nYTljMGZkM2U0NTI5YjEUMBIGA1UECwwLS0RFIENvbm5lY3QxDDAKBgNVBAoMA0tE\nRTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAP2AMC/EucJtH0B6lxeM\nbYUhf0X87eSeex/SON9do7HT+ysG9cXBfy0SQ7FJAn8ueEaKKKtxeXnWKkzVr/2s\nr2j8wujZ0Zz0p5bYht8g8+4VYQBoZR1XOLFZ19DueQ4jsdOqKFwiYi6GG0kEsimt\n0UdixmO/G2OOAlVWHXCyt6cJq2HC3ymds1/9WhkZ2oIBkRJcFGP+5ZbQaifrW3qe\nvavkrJBkamgL27VxJFJ8TTptcXebVWwXvRZcA0XDatv+EMvteciw9SLkvrnU+1Ls\niS+LefJsgTUPwfyoXD+k8vJj4DI/XueHZruY9dcxjCC0CzqAtz37NZG3PFqnSE8U\nN1UCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAtVKGiojNNkrZrQdLnFW2/iryyeSD\nWINj0ltSbrzdNiTg0MFYXM7YokC3nX9vPMAh3NE3juU+y351n7NW7q7JuLrDseXo\nZyKHFmUOTIAt67MVAp3l1Cr+gofCRfl7PNxhbCBB3loEhMOd6lszKGzPxNhr44ga\nv9MEe/jpOv3IWGK3xAmOjs8SgT4+d6/eHfsplPg7+Fd7YAnQDy7NGzgP9De7E5HG\n0Xjjx+x5B1kkzQ7/BG6sjEbPB+YBkkfz8d0+yD2jfjnXS6W8rmX81kKQ68fp1ulk\nD2vlzSZRGCUdYsqKyPBX+jJ2HqGsCaaNdOelm610ZQeEcuLI0KKTOtJ6FA==\n-----END CERTIFICATE-----\n'
+disabled-plugins=@as []
+incoming-capabilities=['kdeconnect.battery', 'kdeconnect.battery.request', 'kdeconnect.bigscreen.stt', 'kdeconnect.clipboard', 'kdeconnect.clipboard.connect', 'kdeconnect.connectivity_report.request', 'kdeconnect.contacts.request_all_uids_timestamps', 'kdeconnect.contacts.request_vcards_by_uid', 'kdeconnect.findmyphone.request', 'kdeconnect.mousepad.keyboardstate', 'kdeconnect.mousepad.request', 'kdeconnect.mpris', 'kdeconnect.mpris.request', 'kdeconnect.notification', 'kdeconnect.notification.action', 'kdeconnect.notification.reply', 'kdeconnect.notification.request', 'kdeconnect.photo.request', 'kdeconnect.ping', 'kdeconnect.runcommand', 'kdeconnect.sftp.request', 'kdeconnect.share.request', 'kdeconnect.share.request.update', 'kdeconnect.sms.request', 'kdeconnect.sms.request_attachment', 'kdeconnect.sms.request_conversation', 'kdeconnect.sms.request_conversations', 'kdeconnect.systemvolume', 'kdeconnect.telephony.request', 'kdeconnect.telephony.request_mute']
+last-connection='lan://192.168.3.119:1716'
+name='SM-A305F'
+outgoing-capabilities=['kdeconnect.battery', 'kdeconnect.battery.request', 'kdeconnect.bigscreen.stt', 'kdeconnect.clipboard', 'kdeconnect.clipboard.connect', 'kdeconnect.connectivity_report', 'kdeconnect.contacts.response_uids_timestamps', 'kdeconnect.contacts.response_vcards', 'kdeconnect.findmyphone.request', 'kdeconnect.mousepad.echo', 'kdeconnect.mousepad.keyboardstate', 'kdeconnect.mousepad.request', 'kdeconnect.mpris', 'kdeconnect.mpris.request', 'kdeconnect.notification', 'kdeconnect.notification.request', 'kdeconnect.photo', 'kdeconnect.ping', 'kdeconnect.presenter', 'kdeconnect.runcommand.request', 'kdeconnect.sftp', 'kdeconnect.share.request', 'kdeconnect.sms.attachment_file', 'kdeconnect.sms.messages', 'kdeconnect.systemvolume.request', 'kdeconnect.telephony']
+paired=true
+supported-plugins=['battery', 'clipboard', 'connectivity_report', 'contacts', 'findmyphone', 'mousepad', 'mpris', 'notification', 'photo', 'ping', 'presenter', 'runcommand', 'sftp', 'share', 'sms', 'systemvolume', 'telephony']
+type='phone'
+
+[org/gnome/shell/extensions/gsconnect/device/fd0a9c0fd3e4529b/plugin/battery]
+custom-battery-notification-value=uint32 80
+
+[org/gnome/shell/extensions/gsconnect/device/fd0a9c0fd3e4529b/plugin/notification]
+applications='{"Printers":{"iconName":"org.gnome.Settings-printers-symbolic","enabled":true},"Evolution Alarm Notify":{"iconName":"appointment-soon","enabled":true},"Add/Remove Software":{"iconName":"system-software-install","enabled":true},"Deluge":{"iconName":"deluge","enabled":true},"Disks":{"iconName":"org.gnome.DiskUtility","enabled":true},"Date & Time":{"iconName":"org.gnome.Settings-time-symbolic","enabled":true},"Geary":{"iconName":"org.gnome.Geary","enabled":true},"Power":{"iconName":"org.gnome.Settings-power-symbolic","enabled":true},"Color":{"iconName":"org.gnome.Settings-color-symbolic","enabled":true},"Files":{"iconName":"org.gnome.Nautilus","enabled":true},"Archive Manager":{"iconName":"org.gnome.FileRoller","enabled":true}}'
+
+[org/gnome/shell/extensions/gsconnect/device/fd0a9c0fd3e4529b/plugin/share]
+receive-directory='/home/harshit/Downloads'
+receive-files=true
+
+[org/gnome/shell/extensions/gsconnect/preferences]
+window-maximized=true
+
+[org/gnome/shell/extensions/net/gfxmonk/impatience]
+speed-factor=0.38314176245210729
+
+[org/gnome/shell/extensions/rounded-window-corners]
+border-width=0
+custom-rounded-corner-settings=@a{sv} {}
+focused-shadow={'vertical_offset': 4, 'horizontal_offset': 0, 'blur_offset': 28, 'spread_radius': 4, 'opacity': 60}
+global-rounded-corner-settings={'padding': <{'left': <uint32 1>, 'right': <uint32 1>, 'top': <uint32 1>, 'bottom': <uint32 1>}>, 'keep_rounded_corners': <{'maximized': <false>, 'fullscreen': <false>}>, 'border_radius': <uint32 8>, 'smoothing': <0.80000000000000004>, 'enabled': <true>}
+settings-version=uint32 5
+tweak-kitty-terminal=false
+unfocused-shadow={'vertical_offset': 2, 'horizontal_offset': 0, 'blur_offset': 12, 'spread_radius': -1, 'opacity': 65}
+
+[org/gnome/shell/keybindings]
+focus-active-notification=@as []
+open-application-menu=@as []
+screenshot=@as []
+screenshot-window=@as []
+show-screen-recording-ui=@as []
+show-screenshot-ui=['<Shift><Super>s']
+toggle-application-view=@as []
+toggle-message-tray=@as []
+toggle-overview=@as []
+
+[org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color='rgb(46,52,54)'
+bold-is-bright=true
+cursor-shape='underline'
+custom-command='/usr/bin/fish'
+default-size-columns=110
+default-size-rows=30
+font='FantasqueSansMono Nerd Font Mono 12'
+foreground-color='rgb(211,215,207)'
+use-custom-command=true
+use-system-font=false
+use-theme-colors=true
+visible-name='Garuda'
+
+[org/gnome/tweaks]
+show-extensions-notice=false
+
+[org/gtk/gtk4/settings/file-chooser]
+date-format='regular'
+location-mode='path-bar'
+show-hidden=false
+show-size-column=true
+show-type-column=true
+sidebar-width=180
+sort-column='name'
+sort-directories-first=true
+sort-order='ascending'
+type-format='category'
+window-size=(905, 327)
+
+[org/gtk/settings/color-chooser]
+custom-colors=[(0.50196078431372548, 0.50196078431372548, 0.50196078431372548, 1.0)]
+selected-color=(true, 0.14117647058823529, 0.12156862745098039, 0.19215686274509805, 1.0)
+
+[org/gtk/settings/file-chooser]
+date-format='regular'
+location-mode='path-bar'
+show-hidden=false
+show-size-column=true
+show-type-column=true
+sidebar-width=197
+sort-column='name'
+sort-directories-first=true
+sort-order='ascending'
+type-format='category'
+window-position=(79, 4)
+window-size=(1203, 684)
+
+[org/nemo/preferences]
+show-hidden-files=false
+
+[org/nemo/window-state]
+maximized=true
+side-pane-view='places'
+sidebar-bookmark-breakpoint=5
+start-with-sidebar=true
+start-with-status-bar=false
+
+[system/proxy]
+mode='none'

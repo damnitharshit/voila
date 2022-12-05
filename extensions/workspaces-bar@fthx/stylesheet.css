@@ -39,27 +39,29 @@
 /* non-framed version */
 
 .desktop-label-nonempty-active {
-  margin-left: 4px;
-  margin-right: 4px;
-  background-color: rgba(200, 200, 200, 0.2);
-  border-radius: 5px;
+  margin-left: 0px;
+  margin-right: 8px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .desktop-label-nonempty-inactive {
-  margin-left: 4px;
-  margin-right: 4px;
-  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 0px;
+  margin-right: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .desktop-label-empty-active {
-  margin-left: 4px;
-  margin-right: 4px;
-  background-color: rgba(200, 200, 200, 0.2);
-  border-radius: 5px;
+  margin-left: 0px;
+  margin-right: 8px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .desktop-label-empty-inactive {
-  margin-left: 4px;
-  margin-right: 4px;
-  background-color: rgba(0, 0, 0, 0.0);
+  margin-left: 0px;
+  margin-right: 8px;
+  color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0);
 }

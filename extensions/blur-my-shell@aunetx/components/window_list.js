@@ -4,15 +4,15 @@ const { St, Shell, Meta, Gio } = imports.gi;
 const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
-const PaintSignals = Me.imports.conveniences.paint_signals;
+const { PaintSignals } = Me.imports.effects.paint_signals;
 
 
 var WindowListBlur = class WindowListBlur {
     constructor(connections, prefs) {
         this.connections = connections;
         this.prefs = prefs;
-        this.paint_signals = new PaintSignals.PaintSignals(connections);
-        this.blur_effects = [];
+        this.paint_signals = new PaintSignals(connections);
+        this.effects = [];
     }
 
     enable() {
@@ -42,25 +42,25 @@ var WindowListBlur = class WindowListBlur {
 
     try_blur(child) {
         if (
-            child.constructor.name == "WindowList" &&
-            child.style != "background:transparent;"
+            child.constructor.name === "WindowList" &&
+            child.style !== "background:transparent;"
         ) {
             this._log("found window list to blur");
 
-            let effect = new Shell.BlurEffect({
+            let blur_effect = new Shell.BlurEffect({
                 name: 'window-list-blur',
-                sigma: this.prefs.WINDOW_LIST_CUSTOMIZE.get()
-                    ? this.prefs.WINDOW_LIST_SIGMA.get()
-                    : this.prefs.SIGMA.get(),
-                brightness: this.prefs.WINDOW_LIST_CUSTOMIZE.get()
-                    ? this.prefs.WINDOW_LIST_BRIGHTNESS.get()
-                    : this.prefs.BRIGHTNESS.get(),
+                sigma: this.prefs.window_list.CUSTOMIZE
+                    ? this.prefs.window_list.SIGMA
+                    : this.prefs.SIGMA,
+                brightness: this.prefs.window_list.CUSTOMIZE
+                    ? this.prefs.window_list.BRIGHTNESS
+                    : this.prefs.BRIGHTNESS,
                 mode: Shell.BlurMode.BACKGROUND
             });
 
             child.set_style("background:transparent;");
-            child.add_effect(effect);
-            this.blur_effects.push(effect);
+            child.add_effect(blur_effect);
+            this.effects.push({ blur_effect });
 
             child._windowList.get_children().forEach(
                 window => this.blur_window_button(window)
@@ -78,20 +78,20 @@ var WindowListBlur = class WindowListBlur {
             //`Shell.BlurEffect` does not repaint when shadows are under it. [1]
             //
             // This does not entirely fix this bug (shadows caused by windows
-            // still cause artefacts), but it prevents the shadows of the panel
-            // buttons to cause artefacts on the panel itself
+            // still cause artifacts), but it prevents the shadows of the panel
+            // buttons to cause artifacts on the panel itself
             //
             // [1]: https://gitlab.gnome.org/GNOME/gnome-shell/-/issues/2857
 
-            if (this.prefs.HACKS_LEVEL.get() == 1) {
+            if (this.prefs.HACKS_LEVEL === 1) {
                 this._log("window list hack level 1");
 
-                this.paint_signals.connect(child, effect);
+                this.paint_signals.connect(child, blur_effect);
 
-            } else if (this.prefs.HACKS_LEVEL.get() == 2) {
+            } else if (this.prefs.HACKS_LEVEL === 2) {
                 this._log("window list hack level 2");
 
-                this.paint_signals.connect(child, effect);
+                this.paint_signals.connect(child, blur_effect);
             } else {
                 this.paint_signals.disconnect_all();
             }
@@ -106,8 +106,8 @@ var WindowListBlur = class WindowListBlur {
 
     try_remove_blur(child) {
         if (
-            child.constructor.name == "WindowList" &&
-            child.style == "background:transparent;"
+            child.constructor.name === "WindowList" &&
+            child.style === "background:transparent;"
         ) {
             child.style = null;
             child.remove_effect_by_name('window-list-blur');
@@ -119,16 +119,21 @@ var WindowListBlur = class WindowListBlur {
     }
 
     set_sigma(s) {
-        this.blur_effects.forEach(effect => {
-            effect.sigma = s;
+        this.effects.forEach(effect => {
+            effect.blur_effect.sigma = s;
         });
     }
 
     set_brightness(b) {
-        this.blur_effects.forEach(effect => {
-            effect.brightness = b;
+        this.effects.forEach(effect => {
+            effect.blur_effect.brightness = b;
         });
     }
+
+    // not implemented for dynamic blur
+    set_color(c) { }
+    set_noise_amount(n) { }
+    set_noise_lightness(l) { }
 
     hide() {
         this.set_sigma(0);
@@ -136,9 +141,9 @@ var WindowListBlur = class WindowListBlur {
 
     show() {
         this.set_sigma(
-            this.prefs.WINDOW_LIST_CUSTOMIZE.get()
-                ? this.prefs.WINDOW_LIST_SIGMA.get()
-                : this.prefs.SIGMA.get()
+            this.prefs.window_list.CUSTOMIZE
+                ? this.prefs.window_list.SIGMA
+                : this.prefs.SIGMA
         );
     }
 
@@ -149,12 +154,12 @@ var WindowListBlur = class WindowListBlur {
             child => this.try_remove_blur(child)
         );
 
-        this.blur_effects = [];
+        this.effects = [];
         this.connections.disconnect_all();
     }
 
     _log(str) {
-        if (this.prefs.DEBUG.get())
-            log(`[Blur my Shell] ${str}`);
+        if (this.prefs.DEBUG)
+            log(`[Blur my Shell > window list]  ${str}`);
     }
 };
